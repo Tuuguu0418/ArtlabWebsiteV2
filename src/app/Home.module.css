@@ -1,0 +1,34 @@
+/* Home.module.css */
+
+.textGradient{
+  background: -webkit-linear-gradient(left,#0090ff, #ffffff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes textIn{
+  0%{
+    transform: translateY(100%);
+  }
+  100%{
+    transform: translateY(0%);
+  }
+}
+
+@keyframes textOut{
+  0%{
+    transform: translateY(0%);
+  }
+  100%{
+    transform: translateY(-100%);
+  }
+}
+
+.text_in{
+  display: block;
+  animation: textIn .5s ease;
+}
+
+.text_out{
+  animation: textOut .5s ease;
+}
