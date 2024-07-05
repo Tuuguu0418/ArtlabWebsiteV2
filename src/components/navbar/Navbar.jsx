@@ -41,22 +41,22 @@ const Navigationbar = () => {
     {
       id: "1",
       link: "Бүтээгдэхүүн",
-      href: "#product",
+      href: "/#product",
     },
     {
       id: "2",
       link: "Бидний тухай",
-      href: "#about",
+      href: "/#about",
     },
     {
       id: "3",
       link: "Үнэ",
-      href: "#price",
+      href: "/#price",
     },
     {
       id: "4",
       link: "Холбогдох",
-      href: "#contact",
+      href: "/#contact",
     },
   ];
 
@@ -79,7 +79,7 @@ const Navigationbar = () => {
     >
       <div className="flex flex-row w-full xl:w-4/5 xl:mx-auto justify-between">
         <div className="flex space-x-8">
-          <a href="#showcase">
+          <a href="/">
             <Image
               src="/img/logo/artlablogoBlue.png"
               alt="artlab logo"
@@ -103,10 +103,14 @@ const Navigationbar = () => {
               </Link>
             </li>
             <li>
-              <button>
-                MN
-                <FaAngleDown className="inline ml-1" />
-              </button>
+              <select name="languages" className="bg-inherit">
+                <option value="Mongolia" className="bg-black">
+                  MN
+                </option>
+                <option value="English" className="bg-black">
+                  EN
+                </option>
+              </select>
             </li>
             <li>
               <Link href="/form">Гэрээ</Link>
@@ -133,7 +137,7 @@ const Navigationbar = () => {
           </div>
 
           {nav && (
-            <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-black/90 backdrop-blur-2xl text-white">
+            <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-black backdrop-blur-2xl text-white">
               {links1.map(({ id, link, href }) => (
                 <li
                   key={id}
@@ -143,10 +147,14 @@ const Navigationbar = () => {
                 </li>
               ))}
               <li className="px-4 cursor-pointer capitalize py-4 text-sm font-medium">
-                <button>
-                  MN
-                  <FaAngleDown className="inline ml-1" />
-                </button>
+                <select name="languages" className="bg-inherit">
+                  <option value="Mongolia" className="bg-black">
+                    MN
+                  </option>
+                  <option value="English" className="bg-black">
+                    EN
+                  </option>
+                </select>
               </li>
               {links2.map(({ id, link, href }) => (
                 <li

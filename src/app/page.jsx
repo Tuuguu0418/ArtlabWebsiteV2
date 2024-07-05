@@ -51,79 +51,91 @@ export default function Home() {
   const [showTransition, setShowTransition] = React.useState(false);
 
   const handleInputChange = (e) => {
-    setNumUsers(parseInt(e.target.value));
-    setShowTransition(false);
+    const value = parseInt(e.target.value);
+    if (!isNaN(value)) {
+      setNumUsers(value);
+      setShowTransition(false);
+    } else {
+      setNumUsers("Хэрэглэгч");
+    }
   };
 
   const calculateCost = () => {
-    let cost = 0;
-    let details = [];
-    let users = numUsers;
-    let totalUsers = numUsers;
+    if (numUsers < 5000 || numUsers === "Хэрэглэгч") {
+      let cost = 0;
+      let details = [];
+      let users = numUsers;
+      let totalUsers = numUsers;
 
-    if (totalUsers >= 1) {
-      const user1 = Math.min(users, 1);
-      cost += user1 * 200000;
-      details.push({
-        label: "1 хэрэглэгч",
-        count: user1,
-        cost: user1 * 200000,
-      });
-      users -= user1;
-    }
-    if (totalUsers >= 2) {
-      const user23 = Math.min(users, 2);
-      cost += user23 * 100000;
-      details.push({
-        label: "2-3 хэрэглэгч",
-        count: user23,
-        cost: user23 * 100000,
-      });
-      users -= user23;
-    }
-    if (totalUsers >= 4) {
-      const user410 = Math.min(users, 7);
-      cost += user410 * 50000;
-      details.push({
-        label: "4-10 хэрэглэгч",
-        count: user410,
-        cost: user410 * 50000,
-      });
-      users -= user410;
-    }
-    if (totalUsers >= 11) {
-      const user1120 = Math.min(users, 10);
-      cost += user1120 * 40000;
-      details.push({
-        label: "11-20 хэрэглэгч",
-        count: user1120,
-        cost: user1120 * 40000,
-      });
-      users -= user1120;
-    }
-    if (totalUsers >= 21) {
-      const user2130 = Math.min(users, 10);
-      cost += user2130 * 30000;
-      details.push({
-        label: "21-30 хэрэглэгч",
-        count: user2130,
-        cost: user2130 * 30000,
-      });
-      users -= user2130;
-    }
-    if (totalUsers >= 31) {
-      const user31Plus = users;
-      cost += user31Plus * 20000;
-      details.push({
-        label: "31-* хэрэглэгч",
-        count: user31Plus,
-        cost: user31Plus * 20000,
-      });
-    }
+      if (totalUsers >= 1) {
+        const user1 = Math.min(users, 1);
+        cost += user1 * 200000;
+        details.push({
+          label: "1 хэрэглэгч",
+          count: user1,
+          cost: user1 * 200000,
+        });
+        users -= user1;
+      }
+      if (totalUsers >= 2) {
+        const user23 = Math.min(users, 2);
+        cost += user23 * 100000;
+        details.push({
+          label: "2-3 хэрэглэгч",
+          count: user23,
+          cost: user23 * 100000,
+        });
+        users -= user23;
+      }
+      if (totalUsers >= 4) {
+        const user410 = Math.min(users, 7);
+        cost += user410 * 50000;
+        details.push({
+          label: "4-10 хэрэглэгч",
+          count: user410,
+          cost: user410 * 50000,
+        });
+        users -= user410;
+      }
+      if (totalUsers >= 11) {
+        const user1120 = Math.min(users, 10);
+        cost += user1120 * 40000;
+        details.push({
+          label: "11-20 хэрэглэгч",
+          count: user1120,
+          cost: user1120 * 40000,
+        });
+        users -= user1120;
+      }
+      if (totalUsers >= 21) {
+        const user2130 = Math.min(users, 10);
+        cost += user2130 * 30000;
+        details.push({
+          label: "21-30 хэрэглэгч",
+          count: user2130,
+          cost: user2130 * 30000,
+        });
+        users -= user2130;
+      }
+      if (totalUsers >= 31) {
+        const user31Plus = users;
+        cost += user31Plus * 20000;
+        details.push({
+          label: "31-* хэрэглэгч",
+          count: user31Plus,
+          cost: user31Plus * 20000,
+        });
+      }
 
-    setTotalCost(cost);
-    setBreakdown(details);
-    setShowTransition(true);
+      setTotalCost(cost);
+      setBreakdown(details);
+      setShowTransition(true);
+    } else {
+      alert("Та 5000-аас бага тоо оруулна уу");
+      setTotalCost(0);
+      setBreakdown([]);
+      setShowTransition(false);
+    }
   };
 
   const getClass = (min) => {

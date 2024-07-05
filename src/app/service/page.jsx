@@ -2,10 +2,11 @@
 
 import * as React from "react";
 import Image from "next/image";
+import FooterComponent from "@/components/FooterComponent";
 
 const ServicePage = () => {
   return (
-    <section data-textcolor="text-black" className="bg-white text-black py-40">
+    <section data-textcolor="text-black" className="bg-white text-black pt-20">
       <div className="flex flex-col w-full items-center">
         <div className="flex flex-col lg:flex-row w-3/4 items-center justify-between 2xl:justify-evenly">
           <h1 className="text-lg sm:text-xl xl:text-3xl 2xl:text-4xl font-semibold mb-5 lg:mb-0 text-center sm:text-left">
@@ -36,7 +37,7 @@ const ServicePage = () => {
           remaining essentially unchanged
         </p>
 
-        <div className="w-11/12 text-[10px] sm:text-xs 2xl:text-base space-y-10 sm:space-y-20">
+        <div className="w-11/12 text-[10px] sm:text-xs 2xl:text-base space-y-10 sm:space-y-20 mb-14">
           <div className="flex flex-col sm:flex-row sm:space-x-8 xl:space-x-14 border p-4 rounded-2xl sm:border-none sm:p-0 sm:rounded-none items-center">
             <Image
               src="/img/others/NatureOfTree.png"
@@ -130,6 +131,7 @@ const ServicePage = () => {
             />
           </div>
         </div>
+        <FooterComponent />
       </div>
     </section>
   );
