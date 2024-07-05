@@ -186,7 +186,7 @@ export default function Home() {
                 үйлдвэрлэл
               </span>
             </p>
-            <button className="w-full sm:w-auto font-semibold text-xs 2xl:text-base border rounded-lg py-1 px-12 mt-6 transition-all hover:text-sky-600 hover:border-sky-600">
+            <button className="w-full sm:w-auto font-semibold text-xs 2xl:text-base border rounded-lg py-2 2xl:py-1 px-12 mt-6 transition-all hover:text-sky-600 hover:border-sky-600">
               Турших
             </button>
             <p className="flex justify-center sm:justify-normal items-center text-base 2xl:text-lg mt-2">
@@ -244,7 +244,7 @@ export default function Home() {
           </div>
           <div className="h-1/2 sm:h-3/5 xl:h-screen w-full mt-10 xl:mt-40 xl:relative">
             <div className="bg-[url('/img/backgrounds/Group285.svg')] bg-cover sm:bg-contain bg-center bg-no-repeat h-full xl:h-4/5 sm:w-full xl:w-5/6 flex flex-col sm:flex-row xl:flex-none items-center sm:justify-center gap-3 m-auto p-0 sm:py-10">
-              <div className="rounded-md w-96 h-96 2xl:w-[35rem] 2xl:h-[35rem] bg-white shadow-md xl:absolute xl:-top-20 xl:left-44 p-3">
+              <div className="rounded-md w-80 h-80 sm:w-96 sm:h-96 2xl:w-[40rem] 2xl:h-[40rem] bg-white shadow-md xl:absolute xl:-top-20 xl:left-44 p-3">
                 <h3 className="font-semibold text-base 2xl:text-xl">
                   Хамтрагч харилцагч байгууллагууд
                 </h3>
@@ -256,7 +256,7 @@ export default function Home() {
                   laboriosam rem id natus non reiciendis error facilis.
                 </p>
               </div>
-              <div className="rounded-md w-96 h-96 2xl:w-[35rem] 2xl:h-[35rem] bg-white shadow-md relative xl:absolute xl:bottom-10 xl:right-44">
+              <div className="rounded-md w-80 h-80 sm:w-96 sm:h-96 2xl:w-[40rem] 2xl:h-[40rem] bg-white shadow-md relative xl:absolute xl:bottom-10 xl:right-44">
                 <div className="relative w-full h-3/4">
                   <Image
                     src="/img/others/mntower.png"
@@ -477,81 +477,89 @@ export default function Home() {
               saepe harum incidunt ipsum ullam tempora quae officia.
               Exercitationem, excepturi.
             </p>
-            <div className="flex flex-row justify-center space-x-4">
-              <a
-                href="https://apps.apple.com/us/app/artlab/id6499415731"
-                target="_blank"
-                className="relative h-9 w-32 block"
-              >
-                <div className="relative h-full w-full">
-                  <Image
-                    src="/img/others/downloadAppstore.png"
-                    alt="Artlab Appstore"
-                    fill
-                    objectFit="cover"
-                    className="rounded-lg"
-                  />
-                </div>
-              </a>
-              <a
-                href="https://play.google.com/store/apps/details?id=mn.artlab.mobileV2&hl=en_US&gl=US"
-                target="_blank"
-                className="relative h-9 w-32 block"
-              >
-                <div className="relative h-full w-full">
-                  <Image
-                    src="/img/others/onGoogleplay.png"
-                    alt="Artlab Playstore"
-                    fill
-                    objectFit="cover"
-                    className="rounded-lg"
-                  />
-                </div>
-              </a>
-            </div>
-            <div className="grid sm:grid-cols-3 w-3/4 xl:w-1/2 my-5 sm:my-20 mx-auto text-base">
-              <div className="hidden sm:grid sm:col-span-2">
-                <div className="flex flex-row">
-                  <h4 className="bg-sky-500 text-white 2xl:text-xl mb-auto mr-4 px-4 py-2 rounded-lg">
-                    1
-                  </h4>
-                  <div>
-                    <h3 className="font-semibold 2xl:text-xl">
-                      Artlab App татаж авах
-                    </h3>
-                    <p>It is a long established fact that a reader will be </p>
+            <div className="flex flex-col-reverse sm:flex-col gap-6 sm:gap-0">
+              <div className="flex flex-row justify-center space-x-4">
+                <a
+                  href="https://apps.apple.com/us/app/artlab/id6499415731"
+                  target="_blank"
+                  className="relative h-9 w-32 block"
+                >
+                  <div className="relative h-full w-full">
+                    <Image
+                      src="/img/others/downloadAppstore.png"
+                      alt="Artlab Appstore"
+                      fill
+                      objectFit="cover"
+                      className="rounded-lg"
+                    />
                   </div>
-                </div>
-                <div className="flex flex-row my-10">
-                  <h4 className="bg-sky-500 text-white 2xl:text-xl mb-auto mr-4 px-4 py-2 rounded-lg">
-                    2
-                  </h4>
-                  <div>
-                    <h3 className="font-semibold 2xl:text-xl">
-                      Нэр, нууц үгээр нэвтэрч орох
-                    </h3>
-                    <p>It is a long established fact that a reader will be </p>
+                </a>
+                <a
+                  href="https://play.google.com/store/apps/details?id=mn.artlab.mobileV2&hl=en_US&gl=US"
+                  target="_blank"
+                  className="relative h-9 w-32 block"
+                >
+                  <div className="relative h-full w-full">
+                    <Image
+                      src="/img/others/onGoogleplay.png"
+                      alt="Artlab Playstore"
+                      fill
+                      objectFit="cover"
+                      className="rounded-lg"
+                    />
                   </div>
-                </div>
-                <div className="flex flex-row">
-                  <h4 className="bg-sky-500 text-white 2xl:text-xl mb-auto mr-4 px-4 py-2 rounded-lg">
-                    3
-                  </h4>
-                  <div>
-                    <h3 className="font-semibold 2xl:text-xl">
-                      Ид шидийг мэдрэх
-                    </h3>
-                    <p>It is a long established fact that a reader will be </p>
-                  </div>
-                </div>
+                </a>
               </div>
-              <Image
-                src="/img/others/artlabphone.png"
-                alt="Artlab phone"
-                height={280}
-                width={230}
-                className="mx-auto sm:mx-0 sm:-mt-5 xl:mt-0"
-              />
+              <div className="grid sm:grid-cols-3 w-3/4 xl:w-1/2 my-5 sm:my-20 mx-auto text-base">
+                <div className="hidden sm:grid sm:col-span-2 sm:pr-10">
+                  <div className="flex flex-row">
+                    <h4 className="bg-sky-500 text-white 2xl:text-xl mb-auto mr-4 px-4 py-2 rounded-lg">
+                      1
+                    </h4>
+                    <div>
+                      <h3 className="font-semibold 2xl:text-xl">
+                        Artlab App татаж авах
+                      </h3>
+                      <p>
+                        It is a long established fact that a reader will be{" "}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row my-10">
+                    <h4 className="bg-sky-500 text-white 2xl:text-xl mb-auto mr-4 px-4 py-2 rounded-lg">
+                      2
+                    </h4>
+                    <div>
+                      <h3 className="font-semibold 2xl:text-xl">
+                        Нэр, нууц үгээр нэвтэрч орох
+                      </h3>
+                      <p>
+                        It is a long established fact that a reader will be{" "}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-row">
+                    <h4 className="bg-sky-500 text-white 2xl:text-xl mb-auto mr-4 px-4 py-2 rounded-lg">
+                      3
+                    </h4>
+                    <div>
+                      <h3 className="font-semibold 2xl:text-xl">
+                        Ид шидийг мэдрэх
+                      </h3>
+                      <p>
+                        It is a long established fact that a reader will be{" "}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <Image
+                  src="/img/others/artlabphone.png"
+                  alt="Artlab phone"
+                  height={280}
+                  width={230}
+                  className="mx-auto sm:mx-0 sm:-mt-5 xl:mt-0"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -600,7 +608,7 @@ export default function Home() {
                 Хүсэлт илгээх
               </button>
             </div>
-            <div className="grid grid-cols sm:grid-cols-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-0 text-center sm:text-left">
               <div className="flex flex-col space-y-2 mt-8">
                 <p>
                   <span className="font-bold">Үндсэн лавлах:&emsp;</span>
@@ -614,8 +622,8 @@ export default function Home() {
                   Chingeltei, 5th khoroo, Ulaanbaatar, Mongolia
                 </p>
               </div>
-              <div className="relative">
-                <ul className="flex space-x-4 absolute bottom-0 right-0 text-2xl 2xl:text-4xl">
+              <div className="mx-auto sm:mx-0 sm:relative">
+                <ul className="flex space-x-4 sm:absolute sm:bottom-0 sm:right-0 text-2xl 2xl:text-4xl">
                   <li className="border rounded-lg p-2">
                     <a
                       target="_blank"

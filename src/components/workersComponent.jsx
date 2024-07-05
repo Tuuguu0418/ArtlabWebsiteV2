@@ -9,7 +9,7 @@ const WorkersComponent = () => {
   const settings = {
     dots: false,
     infinite: true,
-    autoplay: false,
+    autoplay: true,
     autoplaySpeed: 0,
     speed: 4000,
     pauseOnHover: false,
