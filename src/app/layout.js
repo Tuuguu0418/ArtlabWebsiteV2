@@ -13,10 +13,8 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className="scroll-smooth bg-black">
       <body className={montserrat.className}>
-        <Navigationbar/>
-        <div className="overflow-hidden min-h-screen bg-white">
-          {children}
-        </div>
+        <Navigationbar />
+        <div className="overflow-hidden min-h-screen bg-black">{children}</div>
       </body>
     </html>
   );
