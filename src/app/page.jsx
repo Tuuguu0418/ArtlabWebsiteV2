@@ -13,8 +13,11 @@ import { FaEnvelope } from "react-icons/fa";
 import styles from "./Home.module.css";
 import ProductComponent from "@/components/productComponent";
 import WorkersComponent from "@/components/workersComponent";
+import { LanguageContext } from "@/context/LanguageContext";
+import { data } from "@/utils/mainpagelanguage";
 
 export default function Home() {
+  // Showcase text animation
   React.useEffect(() => {
     const txts = document.querySelectorAll(`.${styles.animateText} span`);
     const txtsLen = txts.length;
@@ -45,6 +48,12 @@ export default function Home() {
     animateText();
   }, []);
 
+  // Хэл солих хэсэг
+  const { language } = React.useContext(LanguageContext);
+  const content =
+    language === "MN" ? data[0].languages.mongolian : data[0].languages.english;
+
+  // Үнийн мэдээлэл тооцоо бодох
   const [numUsers, setNumUsers] = React.useState();
   const [totalCost, setTotalCost] = React.useState(0);
   const [breakdown, setBreakdown] = React.useState([]);
@@ -71,7 +80,7 @@ export default function Home() {
         const user1 = Math.min(users, 1);
         cost += user1 * 200000;
         details.push({
-          label: "1 хэрэглэгч",
+          label: "1 ",
           count: user1,
           cost: user1 * 200000,
         });
@@ -81,7 +90,7 @@ export default function Home() {
         const user23 = Math.min(users, 2);
         cost += user23 * 100000;
         details.push({
-          label: "2-3 хэрэглэгч",
+          label: "2-3 ",
           count: user23,
           cost: user23 * 100000,
         });
@@ -91,7 +100,7 @@ export default function Home() {
         const user410 = Math.min(users, 7);
         cost += user410 * 50000;
         details.push({
-          label: "4-10 хэрэглэгч",
+          label: "4-10 ",
           count: user410,
           cost: user410 * 50000,
         });
@@ -101,7 +110,7 @@ export default function Home() {
         const user1120 = Math.min(users, 10);
         cost += user1120 * 40000;
         details.push({
-          label: "11-20 хэрэглэгч",
+          label: "11-20 ",
           count: user1120,
           cost: user1120 * 40000,
         });
@@ -111,7 +120,7 @@ export default function Home() {
         const user2130 = Math.min(users, 10);
         cost += user2130 * 30000;
         details.push({
-          label: "21-30 хэрэглэгч",
+          label: "21-30 ",
           count: user2130,
           cost: user2130 * 30000,
         });
@@ -121,7 +130,7 @@ export default function Home() {
         const user31Plus = users;
         cost += user31Plus * 20000;
         details.push({
-          label: "31-* хэрэглэгч",
+          label: "31-* ",
           count: user31Plus,
           cost: user31Plus * 20000,
         });
@@ -142,6 +151,7 @@ export default function Home() {
     return numUsers >= min && showTransition ? "border-sky-700" : "";
   };
 
+  // Footer хэсэг
   const [feedbackForm, setFeedbackForm] = React.useState({
     feedBack: "",
     viewerName: "",
@@ -184,25 +194,29 @@ export default function Home() {
         className="grid grid-cols sm:grid-cols-2 text-white sm:h-screen w-full"
       >
         <div className="order-last sm:order-first flex flex-col p-5 sm:p-0 sm:justify-center sm:items-center">
-          <div className="">
+          <div>
             <h2 className="sm:text-center text-4xl 2xl:text-5xl font-semibold">
-              Бүгдийг нэг дор
-              <br /> ашиглах систем
+              {content.showcase.showcaseTitle1}
+              <br /> {content.showcase.showcaseTitle2}
             </h2>
             <p
               className={`font-semibold text-4xl 2xl:text-5xl overflow-hidden ${styles.animateText}`}
             >
-              <span className={`hidden ${styles.textGradient}`}>санхүү</span>
-              <span className={`hidden ${styles.textGradient}`}>пос</span>
               <span className={`hidden ${styles.textGradient}`}>
-                үйлдвэрлэл
+                {content.showcase.showcaseText1}
+              </span>
+              <span className={`hidden ${styles.textGradient}`}>
+                {content.showcase.showcaseText2}
+              </span>
+              <span className={`hidden ${styles.textGradient}`}>
+                {content.showcase.showcaseText3}
               </span>
             </p>
             <button className="w-full sm:w-auto font-semibold text-xs 2xl:text-base border rounded-lg py-2 2xl:py-1 px-12 mt-6 transition-all hover:text-sky-600 hover:border-sky-600">
-              Турших
+              {content.showcase.showcaseButton}
             </button>
             <p className="flex justify-center sm:justify-normal items-center text-base 2xl:text-lg mt-2">
-              <WiStars className="inline" /> Амар, хялбар, Хурдан
+              <WiStars className="inline" /> {content.showcase.showcaseText4}
             </p>
           </div>
         </div>
@@ -224,15 +238,10 @@ export default function Home() {
       >
         <div className="text-center">
           <h2 className="text-xl xl:text-2xl 2xl:text-4xl font-bold mb-6">
-            Хүссэн бүхэн нэг дор
+            {content.product.title}
           </h2>
           <p className="text-xs 2xl:text-base w-3/4 mx-auto">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odit totam
-            necessitatibus veritatis? Dolorem quo libero recusandae esse,
-            corporis in possimus voluptates illum veniam exercitationem
-            asperiores temporibus officiis praesentium dolores rerum cum quod
-            ab. Quos ab maxime laboriosam, tempora deserunt voluptate error quam
-            ipsa voluptas deleniti esse debitis eos optio enim.
+            {content.product.text}
           </p>
           <ProductComponent />
         </div>
@@ -243,29 +252,22 @@ export default function Home() {
         <div className="bg-white m-3 border rounded-lg h-full">
           <div className="text-center mt-10 xl:mt-20 w-full">
             <h2 className="text-xl xl:text-2xl 2xl:text-4xl font-semibold mb-6">
-              <span className="text-sky-500">Бид</span>ний тухай
+              {content.aboutUs.title}
+              <span className="text-sky-500">{content.aboutUs.title1}</span>
+              {content.aboutUs.title2}
             </h2>
             <p className="text-xs 2xl:text-base w-4/5 mx-auto">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Omnis
-              voluptate deserunt sed eum quos pariatur aliquid, quam tenetur
-              voluptates! Porro laboriosam vel quia. Doloribus quae et dicta
-              dolore nesciunt assumenda voluptate soluta nobis. Eos quod quas
-              dolorem accusamus, natus aliquam odit voluptatum nemo
-              perspiciatis, praesentium expedita vero! Eaque, obcaecati dolores.
+              {content.aboutUs.text}
             </p>
           </div>
           <div className="h-1/2 sm:h-3/5 xl:h-screen w-full mt-10 xl:mt-40 xl:relative">
             <div className="bg-[url('/img/backgrounds/Group285.svg')] bg-cover sm:bg-contain bg-center bg-no-repeat h-full xl:h-4/5 sm:w-full xl:w-5/6 flex flex-col sm:flex-row xl:flex-none items-center sm:justify-center gap-3 m-auto p-0 sm:py-10">
               <div className="rounded-md w-80 h-80 sm:w-96 sm:h-96 2xl:w-[40rem] 2xl:h-[40rem] bg-white shadow-md xl:absolute xl:-top-20 xl:left-44 p-3">
                 <h3 className="font-semibold text-base 2xl:text-xl">
-                  Хамтрагч харилцагч байгууллагууд
+                  {content.aboutUs.introOneTitle}
                 </h3>
                 <p className="text-[10px] 2xl:text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro
-                  ad tenetur accusantium inventore, numquam, omnis voluptatum,
-                  placeat quam mollitia quaerat soluta veritatis quasi vel
-                  fugiat deleniti pariatur quis! Commodi qui ipsa dolorum
-                  laboriosam rem id natus non reiciendis error facilis.
+                  {content.aboutUs.introOneText}
                 </p>
               </div>
               <div className="rounded-md w-80 h-80 sm:w-96 sm:h-96 2xl:w-[40rem] 2xl:h-[40rem] bg-white shadow-md relative xl:absolute xl:bottom-10 xl:right-44">
@@ -273,7 +275,7 @@ export default function Home() {
                   <Image
                     src="/img/others/mntower.png"
                     alt="MN Tower"
-                    layout="fill"
+                    fill
                     objectFit="cover"
                     className="rounded-3xl p-3"
                   />
@@ -291,7 +293,7 @@ export default function Home() {
           </div>
           <div className="bg-[url('/img/backgrounds/heroesbg.jpg')] bg-cover bg-center bg-no-repeat h-full rounded-2xl py-10">
             <h2 className="text-2xl 2xl:text-4xl text-center font-semibold mb-0 sm:mb-10">
-              Сүпер баатрууд
+              {content.aboutUs.title3}
             </h2>
             <WorkersComponent />
           </div>
@@ -305,7 +307,7 @@ export default function Home() {
         className="text-white py-20 flex flex-col items-center"
       >
         <h3 className="text-xl sm:text-2xl 2xl:text-4xl text-center font-semibold mb-10">
-          Үнийн мэдээлэл
+          {content.price.title}
         </h3>
         <div className="grid grid-cols sm:grid-cols-3 w-full max-w-sm sm:max-w-xl 2xl:max-w-4xl text-xs 2xl:text-base">
           <div className="order-last sm:order-first grid grid-cols-2 sm:flex sm:flex-col gap-x-2 sm:gap-0">
@@ -315,7 +317,7 @@ export default function Home() {
                 1
               )} transition-all`}
             >
-              <p>1 хэрэглэгч</p>
+              <p>1 {content.price.textCustomer}</p>
               <p>200,000&#8366;</p>
             </div>
             <div
@@ -324,7 +326,7 @@ export default function Home() {
                 2
               )} transition-all`}
             >
-              <p>2-3 хэрэглэгч</p>
+              <p>2-3 {content.price.textCustomer}</p>
               <p>100,000&#8366;</p>
             </div>
             <div
@@ -333,7 +335,7 @@ export default function Home() {
                 4
               )} transition-all`}
             >
-              <p>4-10 хэрэглэгч</p>
+              <p>4-10 {content.price.textCustomer}</p>
               <p>50,000&#8366;</p>
             </div>
             <div
@@ -342,7 +344,7 @@ export default function Home() {
                 11
               )} transition-all`}
             >
-              <p>11-20 хэрэглэгч</p>
+              <p>11-20 {content.price.textCustomer}</p>
               <p>40,000&#8366;</p>
             </div>
             <div
@@ -351,7 +353,7 @@ export default function Home() {
                 21
               )} transition-all`}
             >
-              <p>21-30 хэрэглэгч</p>
+              <p>21-30 {content.price.textCustomer}</p>
               <p>30,000&#8366;</p>
             </div>
             <div
@@ -360,7 +362,7 @@ export default function Home() {
                 31
               )} transition-all`}
             >
-              <p>31-* хэрэглэгч</p>
+              <p>31-* {content.price.textCustomer}</p>
               <p>20,000&#8366;</p>
             </div>
           </div>
@@ -369,7 +371,7 @@ export default function Home() {
               <input
                 type="number"
                 className="bg-black text-white border rounded-lg w-full mr-2 text-center"
-                placeholder="Хэрэглэгч"
+                placeholder={content.price.textCustomer2}
                 value={numUsers}
                 onChange={handleInputChange}
                 onBlur={calculateCost}
@@ -378,13 +380,16 @@ export default function Home() {
                 className="ml-4 bg-sky-500 rounded-md py-3 px-6"
                 onClick={calculateCost}
               >
-                Тооцоолох
+                {content.price.textButton}
               </button>
             </div>
             <div className="flex flex-col mt-6 mx-1">
               {breakdown.map((item, index) => (
                 <div className="flex justify-between pb-3" key={index}>
-                  <p className="w-[60%]">{item.label}</p>
+                  <p className="w-[60%]">
+                    {item.label}
+                    {content.price.textCustomer}
+                  </p>
                   <p className="w-[10%]">{item.count}</p>
                   <p className="w-[30%] text-right">
                     {item.cost.toLocaleString()}&#8366;
@@ -395,23 +400,23 @@ export default function Home() {
             <div className="h-[1px] w-full bg-white block"></div>
             <div className="flex flex-col font-semibold mt-2 mx-1">
               <div className="flex justify-between pb-3">
-                <p>Суурь хураамж</p>
-                <p>Үнэгүй</p>
+                <p>{content.price.text1}</p>
+                <p>{content.price.textFree}</p>
               </div>
               <div className="flex justify-between pb-3">
-                <p>Нэвтрүүлэлт</p>
-                <p>Үнэгүй</p>
+                <p>{content.price.text2}</p>
+                <p>{content.price.textFree}</p>
               </div>
               <div className="flex justify-between pb-3">
-                <p>Серверийн зардал</p>
-                <p>Үнэгүй</p>
+                <p>{content.price.text3}</p>
+                <p>{content.price.textFree}</p>
               </div>
               <div className="flex justify-between pb-3">
-                <p>Сургалт</p>
-                <p>Үнэгүй</p>
+                <p>{content.price.text4}</p>
+                <p>{content.price.textFree}</p>
               </div>
               <div className="flex justify-between">
-                <p>Нийт</p>
+                <p>{content.price.text5}</p>
                 <p>{totalCost.toLocaleString()}&#8366;</p>
               </div>
             </div>
@@ -424,16 +429,15 @@ export default function Home() {
         <div className="bg-white m-3 border rounded-lg">
           <div className="w-full text-center mt-12 sm:mt-20 mb-10">
             <h2 className="font-bold text-xl sm:text-2xl 2xl:text-4xl">
-              Яагаад <span className="text-sky-500">artlab</span> гэж?
+              {content.why.title1}{" "}
+              <span className="text-sky-500">{content.why.title2}</span>{" "}
+              {content.why.title3}
             </h2>
             <p className="w-4/5 text-xs 2xl:text-base my-6 mx-auto">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
-              iure quae, fugiat non sequi amet animi libero veniam quia iste
-              molestiae, distinctio debitis culpa eos ut voluptatem tenetur sint
-              nostrum eum temporibus, eveniet aperiam! Quisquam.
+              {content.why.mainText}
             </p>
             <button className="bg-sky-500 border rounded-lg px-12 py-2 text-white text-sm 2xl:text-lg">
-              Харах
+              {content.why.buttonText}
             </button>
           </div>
           <div className="bg-[url('/img/backgrounds/World_blue_dots.svg.png')] bg-cover sm:bg-contain bg-center bg-no-repeat h-full sm:h-[26rem] w-full sm:w-3/4 sm:m-auto">
@@ -443,51 +447,36 @@ export default function Home() {
                   <MdLockOutline />
                 </div>
                 <h3 className="text-xs sm:text-sm 2xl:text-lg font-semibold my-5 sm:mb-4">
-                  ҮЙЛЧИЛГЭЭНД СУУРИЛСАН
+                  {content.why.subTitle1}
                 </h3>
-                <p>
-                  Харилцагчийн тусламж, үйлчилгээ болон санхүүгийн зөвлөх
-                  үйлчилгээнд дээр төвлөрөхөөс гадна тасралтгүй хөгжүүлэлт
-                  хийхийг зорьдог
-                </p>
+                <p>{content.why.subText1}</p>
               </div>
               <div className="basis-1/3 w-1/2 bg-white rounded-lg shadow-2xl pb-3 px-6">
                 <div className="inline-block bg-pink-400 rounded-md p-3 text-white text-2xl 2xl:text-4xl -mt-6">
                   <FaWifi />
                 </div>
                 <h3 className="text-xs sm:text-sm 2xl:text-lg font-semibold my-5 sm:mb-4">
-                  ҮҮЛЭН ТЕХНОЛОГИ
+                  {content.why.subTitle2}
                 </h3>
-                <p>
-                  Дэлхийн хаанаас ч хандах боломж. Компьютерын хүчин чадал
-                  харгалзахгүй, суурилуулалт хийгдэх шаардлагагүй
-                </p>
+                <p>{content.why.subText2}</p>
               </div>
               <div className="basis-1/3 w-1/2 bg-white rounded-lg shadow-2xl pb-3 px-6">
                 <div className="inline-block bg-orange-400 rounded-md p-3 text-white text-2xl 2xl:text-4xl -mt-6">
                   <LiaHandshake />
                 </div>
                 <h3 className="text-xs sm:text-sm 2xl:text-lg font-semibold my-5 sm:mb-4">
-                  УЯН ХАТАН
+                  {content.why.subTitle3}
                 </h3>
-                <p>
-                  Суурь хураамж, Лицензийн төлбөргүй. Сургалт, зөвлөгөө
-                  үйлчилгээ болон шаардлагатай тохиолдолд нэмэлт хөгжүүлэлт,
-                  Серверийн зардал бүгд багтсан
-                </p>
+                <p>{content.why.subText3}</p>
               </div>
             </div>
           </div>
           <div className="my-20 w-full text-xs 2xl:text-base">
             <h2 className="text-2xl 2xl:text-4xl font-semibold text-center">
-              Технологи
+              {content.why.secondTitle}
             </h2>
             <p className="w-4/5 text-center my-6 mx-auto">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Perferendis tempore fugit deleniti debitis cumque amet hic, qui
-              quibusdam nihil, impedit beatae architecto sapiente quis excepturi
-              saepe harum incidunt ipsum ullam tempora quae officia.
-              Exercitationem, excepturi.
+              {content.why.text2}
             </p>
             <div className="flex flex-col-reverse sm:flex-col gap-6 sm:gap-0">
               <div className="flex flex-row justify-center space-x-4">
@@ -530,11 +519,9 @@ export default function Home() {
                     </h4>
                     <div>
                       <h3 className="font-semibold 2xl:text-xl">
-                        Artlab App татаж авах
+                        {content.why.textTitle1}
                       </h3>
-                      <p>
-                        It is a long established fact that a reader will be{" "}
-                      </p>
+                      <p>{content.why.text3}</p>
                     </div>
                   </div>
                   <div className="flex flex-row my-10">
@@ -543,11 +530,9 @@ export default function Home() {
                     </h4>
                     <div>
                       <h3 className="font-semibold 2xl:text-xl">
-                        Нэр, нууц үгээр нэвтэрч орох
+                        {content.why.textTitle2}
                       </h3>
-                      <p>
-                        It is a long established fact that a reader will be{" "}
-                      </p>
+                      <p>{content.why.text3}</p>
                     </div>
                   </div>
                   <div className="flex flex-row">
@@ -556,11 +541,9 @@ export default function Home() {
                     </h4>
                     <div>
                       <h3 className="font-semibold 2xl:text-xl">
-                        Ид шидийг мэдрэх
+                        {content.why.textTitle3}
                       </h3>
-                      <p>
-                        It is a long established fact that a reader will be{" "}
-                      </p>
+                      <p>{content.why.text3}</p>
                     </div>
                   </div>
                 </div>
@@ -588,7 +571,7 @@ export default function Home() {
               key="textarea-1"
               name="feedBack"
               rows="6"
-              placeholder="Таны хүсэлт"
+              placeholder={content.contact.textareaText}
               onChange={handleChange}
               className="w-full mb-5 border border-white/50 rounded-lg bg-black bg-opacity-0 p-4"
             ></textarea>
@@ -598,7 +581,7 @@ export default function Home() {
                   key="input-1"
                   name="viewerName"
                   type="text"
-                  placeholder="Таны нэр"
+                  placeholder={content.contact.inputText1}
                   required
                   onChange={handleChange}
                   className="border border-white/50 rounded-md bg-black bg-opacity-0 px-4 py-2 sm:w-1/2"
@@ -607,7 +590,7 @@ export default function Home() {
                   key="input-2"
                   name="viewerPhone"
                   type="number"
-                  placeholder="Утасны дугаар"
+                  placeholder={content.contact.inputText2}
                   required
                   onChange={handleChange}
                   className="border border-white/50 rounded-md bg-black bg-opacity-0 px-4 py-2 sm:w-1/2"
@@ -617,21 +600,28 @@ export default function Home() {
                 type="submit"
                 className="w-1/3 sm:w-auto rounded-md bg-sky-500 px-4 py-2 mt-5 sm:mt-0 mx-auto sm:mx-0"
               >
-                Хүсэлт илгээх
+                {content.contact.buttonText}
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-0 text-center sm:text-left">
               <div className="flex flex-col space-y-2 mt-8">
                 <p>
-                  <span className="font-bold">Үндсэн лавлах:&emsp;</span>
+                  <span className="font-bold">
+                    {content.contact.subText1}&emsp;
+                  </span>
                   info@artlab.mn
                 </p>
                 <p>
-                  <span className="font-bold">Утас:&emsp;</span>7505 6505
+                  <span className="font-bold">
+                    {content.contact.subText2}&emsp;
+                  </span>
+                  7505 6505
                 </p>
                 <p>
-                  <span className="font-bold">Хаяг:&emsp;</span>MN tower #1407,
-                  Chingeltei, 5th khoroo, Ulaanbaatar, Mongolia
+                  <span className="font-bold">
+                    {content.contact.subText3}&emsp;
+                  </span>
+                  MN tower #1407, Chingeltei, 5th khoroo, Ulaanbaatar, Mongolia
                 </p>
               </div>
               <div className="mx-auto sm:mx-0 sm:relative">

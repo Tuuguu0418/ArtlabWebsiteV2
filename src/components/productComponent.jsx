@@ -9,7 +9,7 @@ import { BsArrowUpRight } from "react-icons/bs";
 
 const ProductComponent = () => {
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 5,
@@ -86,8 +86,8 @@ const ProductComponent = () => {
               <Image
                 src={slide.imgUrl}
                 alt={slide.title}
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: "cover" }}
                 className="border border-white rounded-3xl"
               />
               <div className="absolute bottom-2 left-2 bg-white text-black p-3 rounded-3xl text-left w-[90%]">

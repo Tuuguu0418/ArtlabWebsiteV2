@@ -16,6 +16,7 @@ const WorkersComponent = () => {
     cssEase: "linear",
     slidesToShow: 7,
     slidesToScroll: 1,
+    arrows: false,
     responsive: [
       {
         breakpoint: 1536,
@@ -128,8 +129,8 @@ const WorkersComponent = () => {
               <Image
                 src={slide.imageUrl}
                 alt={slide.name}
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: "cover" }}
                 className="rounded-xl"
               />
               <div className="absolute bottom-2 left-2 bg-black bg-opacity-40 text-white p-3 rounded-xl w-[90%]">

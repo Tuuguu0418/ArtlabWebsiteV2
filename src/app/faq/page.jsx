@@ -10,6 +10,8 @@ import { SlUserFemale } from "react-icons/sl";
 import { PiHandHeart } from "react-icons/pi";
 import { CiBank } from "react-icons/ci";
 import FooterComponent from "@/components/FooterComponent";
+import { LanguageContext } from "@/context/LanguageContext";
+import { faqData } from "@/utils/faqPageLanguage";
 
 const FrequentlyAQ = () => {
   const [feedbackForm, setFeedbackForm] = React.useState({
@@ -45,6 +47,13 @@ const FrequentlyAQ = () => {
 
     console.log(feedbackForm);
   };
+
+  const { language } = React.useContext(LanguageContext);
+  const content =
+    language === "MN"
+      ? faqData[0].languages.mongolian
+      : faqData[0].languages.english;
+
   return (
     <NextUIProvider>
       <div className="bg-black">
@@ -56,13 +65,12 @@ const FrequentlyAQ = () => {
           <div className="flex flex-col basis-1/2 xl:basis-3/5 sm:justify-center items-center sm:items-end">
             <div className="w-11/12 sm:w-2/3 sm:mr-8">
               <h1 className="font-semibold text-3xl 2xl:text-5xl mb-2 sm:mb-4">
-                Танд <span className="text-sky-600">тусламж</span>
-                <br /> хэрэгтэй юу?
+                {content.showcase.title1}{" "}
+                <span className="text-sky-600">{content.showcase.title2}</span>
+                <br /> {content.showcase.title3}
               </h1>
               <p className="text-xs 2xl:text-base leading-relaxed">
-                Танд манай системийн талаар асуух зүйл байгаа, эсвэл
-                бүртгэлийнхээ талаар тусламж хэрэгтэй байгаа эсэхээс үл хамааран
-                манай найрсаг, хамт олон танд туслахад үргэлж таатай байх болно.
+                {content.showcase.text}
               </p>
             </div>
           </div>
@@ -83,34 +91,37 @@ const FrequentlyAQ = () => {
           <div className="flex flex-col items-center">
             <div className="text-center text-xs 2xl:text-base w-10/12 xl:w-3/5 pt-8">
               <h2 className="text-base sm:text-2xl 2xl:text-4xl font-bold mb-10 sm:my-10">
-                Түгээмэл <span className="text-sky-500">асуулт, хариулт</span>{" "}
-                танд хүргье
+                {content.faqSection.title} {content.faqSection.title1}{" "}
+                <span className="text-sky-500">
+                  {content.faqSection.title2}
+                </span>{" "}
+                {content.faqSection.title3}
               </h2>
               <p className="my-10">
                 It is a long established fact that a reader will be distracted
                 by the readable content of a page when looking at its layout.
                 The point of using Lorem Ipsum is that it has a more-or-less
-                normal distribution of letters, as opposed to using 'Content
-                here, content here', making it look like readable English.
+                normal distribution of letters, as opposed to using Content
+                here, content here, making it look like readable English.
               </p>
               <p className="my-10">
                 It is a long established fact that a reader will be distracted
                 by the readable content of a page when looking at its layout.
                 The point of using Lorem Ipsum is that it has a more-or-less
-                normal distribution of letters, as opposed to using 'Content
-                here, content here', making it look like readable English.
+                normal distribution of letters, as opposed to using Content
+                here, content here, making it look like readable English.
               </p>
             </div>
             <div className="rounded-lg shadow-md w-[95%] sm:w-10/12 xl:w-3/5 p-3 text-sm 2xl:text-lg">
               <h3 className="text-blue-700 text-base 2xl:text-xl font-semibold m-2">
-                Системийн тухай
+                {content.faq1.title}
               </h3>
               <Accordion isCompact defaultExpandedKeys={["1"]}>
                 <AccordionItem
                   key="1"
                   aria-label="Хэрэглэгчийн эрх"
                   subtitle="Press to expand"
-                  title="Хэрэглэгчийн эрх"
+                  title={content.faq1.subTitle1}
                   startContent={
                     <AiOutlineSafety className="text-sky-500 text-3xl" />
                   }
@@ -376,13 +387,13 @@ const FrequentlyAQ = () => {
               onSubmit={handleSubmit}
             >
               <h3 className="text-blue-700 text-base 2xl:text-xl font-semibold mb-3">
-                Тусламжын хүсэлт
+                {content.contact.title}
               </h3>
               <textarea
                 key="textarea-1"
                 name="feedBack"
                 rows="4"
-                placeholder="Таны хүсэлт"
+                placeholder={content.contact.textareaText}
                 onChange={handleChange}
                 className="w-full mb-1 sm:mb-5 border rounded-xl p-4 placeholder-black font-medium"
               ></textarea>
@@ -392,7 +403,7 @@ const FrequentlyAQ = () => {
                     key="input-1"
                     name="viewerName"
                     type="text"
-                    placeholder="Таны нэр"
+                    placeholder={content.contact.inputText1}
                     required
                     onChange={handleChange}
                     className="border rounded-md px-4 py-2 w-full sm:w-1/2 placeholder-black font-medium"
@@ -401,7 +412,7 @@ const FrequentlyAQ = () => {
                     key="input-2"
                     name="viewerPhone"
                     type="number"
-                    placeholder="Утасны дугаар"
+                    placeholder={content.contact.inputText2}
                     required
                     onChange={handleChange}
                     className="border rounded-md px-4 py-2 w-full sm:w-1/2 placeholder-black font-medium"
@@ -411,7 +422,7 @@ const FrequentlyAQ = () => {
                   type="submit"
                   className="w-1/3 sm:w-auto rounded-md bg-sky-500 mt-2 sm:mt-0 px-0 sm:px-4 py-2 text-white"
                 >
-                  Хүсэлт илгээх
+                  {content.contact.buttonText}
                 </button>
               </div>
             </form>

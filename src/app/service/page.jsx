@@ -3,22 +3,30 @@
 import * as React from "react";
 import Image from "next/image";
 import FooterComponent from "@/components/FooterComponent";
+import { serviceData } from "@/utils/servicePageLanguage";
+import { LanguageContext } from "@/context/LanguageContext";
 
 const ServicePage = () => {
+  const { language } = React.useContext(LanguageContext);
+  const content =
+    language === "MN"
+      ? serviceData[0].languages.mongolian
+      : serviceData[0].languages.english;
+
   return (
-    <section data-textcolor="text-black" className="bg-white text-black pt-20">
+    <section data-textcolor="text-black" className="bg-white text-black pt-32">
       <div className="flex flex-col w-full items-center">
         <div className="flex flex-col lg:flex-row w-3/4 items-center justify-between 2xl:justify-evenly">
           <h1 className="text-lg sm:text-xl xl:text-3xl 2xl:text-4xl font-semibold mb-5 lg:mb-0 text-center sm:text-left">
-            Чөлөөт бүсүүд
+            {content.showcase.title1}
             <br />
-            гаалийн мэдүүлгээ
+            {content.showcase.title2}
             <br />
             <span className="text-sky-500">
-              системээс илгээх <br />
-              боломжтой
+              {content.showcase.title3} <br />
+              {content.showcase.title4}
             </span>{" "}
-            боллоо
+            {content.showcase.title5}
           </h1>
           <Image
             src="/img/others/MongolianMap.png"
@@ -30,7 +38,7 @@ const ServicePage = () => {
         </div>
         <p className="w-5/6 sm:w-3/4 sm:px-10 text-xs 2xl:text-base mt-16 sm:mt-28 xl:mt-40 mb-12 sm:mb-32 text-center">
           Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          industry. Lorem Ipsum has been the industrys standard dummy text ever
           since the 1500s, when an unknown printer took a galley of type and
           scrambled it to make a type specimen book. It has survived not only
           five centuries, but also the leap into electronic typesetting,
@@ -48,17 +56,22 @@ const ServicePage = () => {
             />
             <div className="text-center sm:text-start sm:my-auto sm:basis-1/2 xl:basis-2/6">
               <h3 className="text-xs sm:text-base 2xl:text-xl font-semibold mb-1">
-                Мэдүүлгээс Бараа материалаа орлогодох
+                {content.subCase1.title}
               </h3>
               <p>
-                Артлаб санхүүгийн системийн{" "}
+                {content.subCase1.text1}{" "}
                 <span className="text-sky-500">
-                  Гаалийн Мэдүүлгийн жагсаалт
+                  {content.subCase1.spanText1}
                 </span>
-                 цэсээр орж{" "}
-                <span className="text-sky-500">Гаалийн мэдүүлэг татах</span>
-                 товч дарж хугацаагаа сонгож{" "}
-                <span className="text-sky-500">Татах</span> дарж татна.
+                 {content.subCase1.text2}{" "}
+                <span className="text-sky-500">
+                  {content.subCase1.spanText2}
+                </span>
+                 {content.subCase1.text3}{" "}
+                <span className="text-sky-500">
+                  {content.subCase1.spanText3}
+                </span>
+                 {content.subCase1.text4}
               </p>
             </div>
           </div>
@@ -66,18 +79,14 @@ const ServicePage = () => {
           <div className="flex flex-col-reverse sm:flex-row sm:space-x-8 xl:space-x-14 border p-4 rounded-2xl sm:border-none sm:p-0 sm:rounded-none items-center">
             <div className="text-center sm:text-start sm:my-auto sm:basis-1/2 xl:basis-2/6">
               <h3 className="text-xs sm:text-base 2xl:text-xl font-semibold mb-1">
-                Гааль рүү орлогын мэдээгээ илгээх
+                {content.subCase2.title}
               </h3>
               <p>
-                Татах товч дарснаар сонгогдсон хугацааны хоорондох гаальд
-                мэдүүлсэн мэдүүлгүүд жагсаалтаар татагдаж орж ирнэ. <br />{" "}
-                <br /> Орж ирсэн мэдүүлэг дэхь БМ, тоо хэмжээгээ шалгаад, систем
-                дэх БМ-н дотоод кодыг тохируулж, хэрэв мэдүүлгийн тоо хэмжээ
-                зөрүүтэй бол гараас засаад{" "}
+                {content.subCase2.text1} <br /> <br /> {content.subCase2.text2}{" "}
                 <span className="text-sky-500">
-                  Гааль рүү орлогын мэдээ илгээх (Хадгалах)
+                  {content.subCase2.spanText1}
                 </span>
-                 товч дарснаар гаалийн систем рүү илгээгдэнэ.
+                 {content.subCase2.text3}
               </p>
             </div>
             <Image
@@ -99,27 +108,24 @@ const ServicePage = () => {
             />
             <div className="text-center sm:text-start sm:my-auto sm:basis-1/2 xl:basis-2/6">
               <h3 className="text-xs sm:text-base 2xl:text-xl font-semibold mb-1">
-                Үйлчлүүлэгч сонгох
+                {content.subCase3.title}
               </h3>
-              <p>
-                Үйлчлүүлэгчийн Баркодыг Үйлчлүүлэгчийн дугаар хэсэгт оруулснаар
-                гаалийн системээс мэдээллийг автоматаар татна.
-              </p>
+              <p>{content.subCase3.text}</p>
             </div>
           </div>
 
           <div className="flex flex-col-reverse sm:flex-row sm:space-x-8 xl:space-x-14 border p-4 rounded-2xl sm:border-none sm:p-0 sm:rounded-none items-center">
             <div className="text-center sm:text-start sm:my-auto sm:basis-1/2 xl:basis-2/6">
               <h3 className="text-xs sm:text-base 2xl:text-xl font-semibold mb-1">
-                Гаалийн шалгуур
+                {content.subCase4.title}
               </h3>
               <p>
-                Үйлчлүүлэгчийн дугаарыг тохируулж, барааг сонгоод{" "}
-                <span className="text-sky-500">Дуусгах</span>
-                 товч дарах үед үйлчлүүлэгчийн мэдээлэл гаалийн систем дээр
-                шалгагдаж шалгуурууд ажиллана. <br />
-                <br /> Орлогот авсан бараа борлуулахдаа Артлаб ПОС-н системээр
-                борлуулна.
+                {content.subCase4.text1}{" "}
+                <span className="text-sky-500">
+                  {content.subCase4.spanText}
+                </span>
+                 {content.subCase4.text2} <br />
+                <br /> {content.subCase4.text3}
               </p>
             </div>
             <Image
