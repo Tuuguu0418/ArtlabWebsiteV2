@@ -14,14 +14,16 @@ const ProductComponent = () => {
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
+    arrows: false,
     responsive: [
       {
         breakpoint: 1536,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
+          arrows: true,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -29,8 +31,9 @@ const ProductComponent = () => {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
+          arrows: true,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -38,6 +41,8 @@ const ProductComponent = () => {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          arrows: true,
+          dots: false,
         },
       },
       {
@@ -45,6 +50,8 @@ const ProductComponent = () => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          arrows: true,
+          dots: false,
         },
       },
     ],

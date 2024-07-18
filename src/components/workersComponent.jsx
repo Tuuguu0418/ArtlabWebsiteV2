@@ -24,7 +24,7 @@ const WorkersComponent = () => {
           slidesToShow: 6,
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -33,7 +33,7 @@ const WorkersComponent = () => {
           slidesToShow: 5,
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -42,7 +42,7 @@ const WorkersComponent = () => {
           slidesToShow: 4,
           slidesToScroll: 1,
           infinite: true,
-          dots: true,
+          dots: false,
         },
       },
       {

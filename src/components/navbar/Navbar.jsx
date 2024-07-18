@@ -9,6 +9,7 @@ import { FaX } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import { LanguageContext } from "@/context/LanguageContext";
 import { NextUIProvider } from "@nextui-org/react";
+import { usePathname, useRouter } from "next/navigation";
 import {
   Dropdown,
   DropdownTrigger,
@@ -19,6 +20,8 @@ import {
 
 const Navigationbar = () => {
   const { language, setLanguage } = React.useContext(LanguageContext);
+  const pathname = usePathname();
+  const router = useRouter();
 
   const handleLanguageChange = (key) => {
     setLanguage(key);
@@ -26,41 +29,82 @@ const Navigationbar = () => {
 
   const [textColor, setTextColor] = React.useState("text-white");
 
-  React.useEffect(() => {
-    if (typeof window !== "undefined") {
-      const handleScroll = () => {
-        const sections = document.querySelectorAll("section");
-        const scrollPosition = window.scrollY;
-
-        sections.forEach((section) => {
-          const sectionTop = section.offsetTop;
-          const sectionHeight = section.offsetHeight;
-          const sectionTextColor = section.getAttribute("data-textcolor");
-
-          if (
-            scrollPosition >= sectionTop - 20 &&
-            scrollPosition < sectionTop + sectionHeight
-          ) {
-            setTextColor(sectionTextColor);
-          }
-        });
-      };
-
-      if (
-        window.location.pathname === "/service" ||
-        window.location.pathname === "/form"
-      ) {
-        setTextColor("text-black");
-      } else {
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-          window.removeEventListener("scroll", handleScroll);
-        };
-      }
+  const updateTextColor = (path) => {
+    if (path === "/service" || path === "/form") {
+      setTextColor("text-black");
+    } else {
+      setTextColor("text-white");
     }
-  }, []);
+  };
+
+  React.useEffect(() => {
+    updateTextColor(pathname);
+  }, [pathname]);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      const sections = document.querySelectorAll("section");
+      const scrollPosition = window.scrollY;
+
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        const sectionTextColor = section.getAttribute("data-textcolor");
+
+        if (
+          scrollPosition >= sectionTop - 20 &&
+          scrollPosition < sectionTop + sectionHeight
+        ) {
+          setTextColor(sectionTextColor);
+        }
+      });
+    };
+
+    if (pathname !== "/service" && pathname !== "/form") {
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }
+  }, [pathname]);
 
   const [nav, setNav] = React.useState(false);
+  const [previousUrl, setPreviousUrl] = React.useState("");
+
+  React.useEffect(() => {
+    const handleBeforeUnload = () => {
+      setPreviousUrl(window.location.href);
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
+  const handleNavigation = (href) => {
+    if (pathname === "/form") {
+      setPreviousUrl(window.location.href);
+    }
+    router.push(href);
+  };
+
+  React.useEffect(() => {
+    const handlePopState = () => {
+      if (pathname === "/form" && previousUrl) {
+        router.push(previousUrl);
+      } else {
+        router.back();
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [pathname, previousUrl]);
 
   const links1 = [
     {
@@ -116,7 +160,15 @@ const Navigationbar = () => {
             <ul className="hidden xl:flex items-center space-x-8">
               {links1.map(({ id, link, href }) => (
                 <li key={id}>
-                  <a href={href}>{link}</a>
+                  <a
+                    href={href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavigation(href);
+                    }}
+                  >
+                    {link}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -133,7 +185,7 @@ const Navigationbar = () => {
                   <DropdownTrigger>
                     <Button
                       variant="light"
-                      className={`text-xs 2xl:text-base font-semibold ${textColor}`}
+                      className={`text-xs 2xl:text-base font-semibold ${textColor} z-0`}
                     >
                       {language === "MN" ? "MN" : "EN"}
                       <IoIosArrowDown />
@@ -167,9 +219,15 @@ const Navigationbar = () => {
                 </select> */}
               </li>
               <li>
-                <Link href="/form">
+                <a
+                  href="/form"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation("/form");
+                  }}
+                >
                   {language === "MN" ? "Гэрээ" : "Contract"}
-                </Link>
+                </a>
               </li>
               <li>
                 <a
@@ -199,30 +257,56 @@ const Navigationbar = () => {
                     key={id}
                     className="px-4 cursor-pointer capitalize py-4 text-sm font-medium"
                   >
-                    <a href={href}>{link}</a>
+                    <a
+                      href={href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavigation(href);
+                      }}
+                    >
+                      {link}
+                    </a>
                   </li>
                 ))}
                 <li className="px-4 cursor-pointer capitalize py-4 text-sm font-medium">
-                  <select
-                    name="languages"
-                    className="bg-inherit"
-                    value={language}
-                    onChange={handleLanguageChange}
-                  >
-                    <option value="MN" className="bg-black">
-                      MN
-                    </option>
-                    <option value="EN" className="bg-black">
-                      EN
-                    </option>
-                  </select>
+                  <Dropdown>
+                    <DropdownTrigger>
+                      <Button
+                        variant="light"
+                        className={`text-xs 2xl:text-base font-semibold ${textColor}`}
+                      >
+                        {language === "MN" ? "MN" : "EN"}
+                        <IoIosArrowDown />
+                      </Button>
+                    </DropdownTrigger>
+                    <DropdownMenu
+                      aria-label="Static Actions"
+                      name="languages"
+                      onAction={handleLanguageChange}
+                    >
+                      <DropdownItem key="MN" value="MN" className="text-black">
+                        Mongolian
+                      </DropdownItem>
+                      <DropdownItem key="EN" value="EN" className="text-black">
+                        English
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </Dropdown>
                 </li>
                 {links2.map(({ id, link, href }) => (
                   <li
                     key={id}
                     className="px-4 cursor-pointer capitalize py-4 text-sm font-medium"
                   >
-                    <Link href={href}>{link}</Link>
+                    <a
+                      href={href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavigation(href);
+                      }}
+                    >
+                      {link}
+                    </a>
                   </li>
                 ))}
               </ul>

@@ -10,6 +10,8 @@ import { FaFacebook } from "react-icons/fa";
 import { FaInstagram } from "react-icons/fa";
 import { FaTelegram } from "react-icons/fa";
 import { FaEnvelope } from "react-icons/fa";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import styles from "./Home.module.css";
 import ProductComponent from "@/components/productComponent";
 import WorkersComponent from "@/components/workersComponent";
@@ -65,12 +67,14 @@ export default function Home() {
       setNumUsers(value);
       setShowTransition(false);
     } else {
-      setNumUsers("Хэрэглэгч");
+      setNumUsers(0);
     }
   };
 
+  const notify = () => toast("Та 5000-аас бага тоо оруулна уу...");
+
   const calculateCost = () => {
-    if (numUsers < 5000 || numUsers === "Хэрэглэгч") {
+    if (numUsers < 5000) {
       let cost = 0;
       let details = [];
       let users = numUsers;
@@ -139,6 +143,10 @@ export default function Home() {
       setTotalCost(cost);
       setBreakdown(details);
       setShowTransition(true);
+    } else if (numUsers === "Хэрэглэгч") {
+      setTotalCost(0);
+      setBreakdown([]);
+      setShowTransition(false);
     } else {
       alert("Та 5000-аас бага тоо оруулна уу");
       setTotalCost(0);
@@ -200,7 +208,7 @@ export default function Home() {
               <br /> {content.showcase.showcaseTitle2}
             </h2>
             <p
-              className={`font-semibold text-4xl 2xl:text-5xl overflow-hidden ${styles.animateText}`}
+              className={`font-semibold text-4xl 2xl:text-5xl mb-6 overflow-hidden ${styles.animateText}`}
             >
               <span className={`hidden ${styles.textGradient}`}>
                 {content.showcase.showcaseText1}
@@ -212,8 +220,14 @@ export default function Home() {
                 {content.showcase.showcaseText3}
               </span>
             </p>
-            <button className="w-full sm:w-auto font-semibold text-xs 2xl:text-base border rounded-lg py-2 2xl:py-1 px-12 mt-6 transition-all hover:text-sky-600 hover:border-sky-600">
-              {content.showcase.showcaseButton}
+            <button
+              target="_blank"
+              href="https://artlab.mn/fc/main"
+              className="w-full sm:w-auto font-semibold text-xs 2xl:text-base border rounded-lg py-2 2xl:py-1 px-12 transition-all hover:text-sky-600 hover:border-sky-600"
+            >
+              <a target="_blank" href="https://artlab.mn/fc/main">
+                {content.showcase.showcaseButton}
+              </a>
             </button>
             <p className="flex justify-center sm:justify-normal items-center text-base 2xl:text-lg mt-2">
               <WiStars className="inline" /> {content.showcase.showcaseText4}
