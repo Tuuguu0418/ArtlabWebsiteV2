@@ -5,42 +5,45 @@ import { NextUIProvider } from "@nextui-org/react";
 import { Input, Select, SelectItem, Textarea, Button } from "@nextui-org/react";
 import { formDataLanguage } from "@/utils/formPageLanguage";
 import { LanguageContext } from "@/context/LanguageContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { TailSpin } from "react-loader-spinner";
 
 const Forms = () => {
   const [formData, setFormData] = React.useState({
-    companyNameCyrillic: "",
-    companyNameLatin: "",
-    companyRegistrationNumber: "",
-    businessField: "",
-    companyPhone: "",
-    accountantPhone: "",
+    companyName: "",
+    companyNameEn: "",
+    companyRegNum: "",
+    phone1: "",
+    phone2: "",
     email: "",
     address: "",
-    firstSignaturePosition: "",
-    firstSignatureName: "",
-    secondSignaturePosition: "",
-    secondSignatureName: "",
-    numberOfUsers: "",
-    additionalCompany: "",
-    additionalCompanyDescription: "",
-    systemInfoDescription: "",
+    position1: "",
+    personnel1: "",
+    position2: "",
+    personnel2: "",
+    userCount: "",
+    hasAddDb: "",
+    addDbDesc: "",
+    note: "",
   });
 
   const [isAdditionalCompanySelected, setIsAdditionalCompanySelected] =
     React.useState(false);
   const [validationErrors, setValidationErrors] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSelectChange = (value) => {
     setIsAdditionalCompanySelected(value === "Тийм");
-    setFormData({ ...formData, additionalCompany: value });
+    setFormData({ ...formData, hasAddDb: value });
     if (value) {
-      setValidationErrors((prev) => ({ ...prev, additionalCompany: !value }));
+      setValidationErrors((prev) => ({ ...prev, hasAddDb: !value }));
     }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "numberOfUsers" && value < 0) return;
+    if (name === "userCount" && value < 0) return;
     setFormData({ ...formData, [name]: value });
     if (name === "email") {
       setValidationErrors((prev) => ({
@@ -52,6 +55,12 @@ const Forms = () => {
         setValidationErrors((prev) => ({ ...prev, [name]: !value }));
       }
     }
+    if (name === "phone1" || name === "phone2") {
+      setValidationErrors((prev) => ({
+        ...prev,
+        [name]: !validatePhone(value),
+      }));
+    }
   };
 
   const validateEmail = (email) => {
@@ -59,19 +68,27 @@ const Forms = () => {
     return regex.test(email);
   };
 
-  const handleSubmit = () => {
+  const validatePhone = (number) => {
+    const phone = number.toString();
+    if (phone.length < 8) return false;
+    else return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     const requiredFields = [
-      "companyNameCyrillic",
-      "companyNameLatin",
-      "companyRegistrationNumber",
-      "accountantPhone",
+      "companyName",
+      "companyNameEn",
+      "companyRegNum",
+      "phone2",
       "email",
-      "firstSignaturePosition",
-      "firstSignatureName",
-      "secondSignaturePosition",
-      "secondSignatureName",
-      "numberOfUsers",
-      "additionalCompany",
+      "position1",
+      "personnel1",
+      "position2",
+      "personnel2",
+      "userCount",
+      "hasAddDb",
     ];
 
     const newValidationErrors = {};
@@ -81,19 +98,57 @@ const Forms = () => {
       }
     });
 
+    if (formData.phone2.toString().length < 8) {
+      newValidationErrors.phone2 = true;
+    }
+
+    if (formData.phone1 !== "") {
+      if (formData.phone1.toString().length < 8) {
+        newValidationErrors.phone1 = true;
+      }
+    }
+
     if (Object.keys(newValidationErrors).length > 0) {
       setValidationErrors(newValidationErrors);
-      alert("*-той хэсгүүдийг бүгдийг нь бөглөнө үү");
+      toast.warning("*-той хэсгүүдийг бүгдийг нь зөв бөглөнө үү", {
+        position: "top-center",
+      });
       return;
     }
 
-    // const missingFields = requiredFields.filter(field => !formData[field]);
+    setIsLoading(true);
+    try {
+      // Send the POST request
+      const response = await fetch(
+        "https://api.artlab.mn/inner/web/crm-request/contract",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
-    // if (missingFields.length > 0) {
-    //     alert("*-той хэсгүүдийг бүгдийг нь бөглөнө үү");
-    //     return;
-    // }
+      const data = await response.json();
 
+      if (response.ok) {
+        toast.success("Амжилттай илгээлээ.", { position: "top-center" });
+        document.getElementById("formData").reset();
+      } else {
+        // Handle error response
+        toast.error(`Алдаа гарлаа: ${data.message}`, {
+          position: "top-center",
+        });
+      }
+    } catch (error) {
+      toast.error(`An error occurred: ${error.message}`, {
+        position: "top-center",
+      });
+    } finally {
+      setIsLoading(false);
+    }
     console.log(formData);
   };
 
@@ -110,7 +165,11 @@ const Forms = () => {
   return (
     <NextUIProvider>
       <div className="w-full flex flex-row bg-white pt-20 z-30">
-        <form className="w-4/5 lg:w-2/3 mx-auto">
+        <form
+          id="formData"
+          className="w-4/5 lg:w-2/3 mx-auto"
+          onSubmit={handleSubmit}
+        >
           <div className="w-full bg-white rounded-lg shadow-md my-4 p-8">
             <p className="text-blue-500 font-bold text-sm lg:text-lg md:text-base">
               {content.part1.title}
@@ -119,32 +178,32 @@ const Forms = () => {
               <Input
                 isRequired
                 key="input-1"
-                name="companyNameCyrillic"
+                name="companyName"
                 label={content.part1.inputLabel1}
                 labelPlacement="outside"
                 placeholder={content.part1.inputPholder1}
                 onChange={handleChange}
-                {...getValidationProps("companyNameLatin")}
+                {...getValidationProps("companyName")}
               />
               <Input
                 isRequired
                 key="input-2"
-                name="companyNameLatin"
+                name="companyNameEn"
                 label={content.part1.inputLabel2}
                 labelPlacement="outside"
                 placeholder="Company A"
                 onChange={handleChange}
-                {...getValidationProps("companyNameLatin")}
+                {...getValidationProps("companyNameEn")}
               />
               <Input
                 isRequired
                 key="input-3"
-                name="companyRegistrationNumber"
+                name="companyRegNum"
                 label={content.part1.inputLabel3}
                 labelPlacement="outside"
                 placeholder={content.part1.inputPholder3}
                 onChange={handleChange}
-                {...getValidationProps("companyRegistrationNumber")}
+                {...getValidationProps("companyRegNum")}
               />
               <Input
                 key="input-4"
@@ -155,23 +214,26 @@ const Forms = () => {
                 onChange={handleChange}
               />
               <Input
+                isRequired
                 key="input-5"
-                name="companyPhone"
+                name="phone1"
+                type="number"
                 label={content.part1.inputLabel5}
                 labelPlacement="outside"
                 placeholder={content.part1.inputPholder5}
                 onChange={handleChange}
+                {...getValidationProps("phone1")}
               />
               <Input
                 isRequired
                 key="input-6"
-                name="accountantPhone"
+                name="phone2"
                 type="number"
                 label={content.part1.inputLabel6}
                 labelPlacement="outside"
                 placeholder={content.part1.inputPholder6}
                 onChange={handleChange}
-                {...getValidationProps("accountantPhone")}
+                {...getValidationProps("phone2")}
               />
               <Input
                 isRequired
@@ -204,21 +266,21 @@ const Forms = () => {
               <Input
                 isRequired
                 key="input-9"
-                name="firstSignaturePosition"
+                name="position1"
                 label={content.part2.inputLabel1}
                 labelPlacement="outside"
                 placeholder={content.part2.inputPholder1}
                 onChange={handleChange}
-                {...getValidationProps("firstSignaturePosition")}
+                {...getValidationProps("position1")}
               />
               <Input
                 isRequired
                 key="input-10"
-                name="firstSignatureName"
+                name="personnel1"
                 placeholder={content.part2.inputPholder2}
                 onChange={handleChange}
                 className="mt-6"
-                {...getValidationProps("firstSignatureName")}
+                {...getValidationProps("personnel1")}
               />
             </div>
             <p className="text-blue-500 font-bold mt-8 text-sm md:text-base lg:text-lg">
@@ -228,21 +290,21 @@ const Forms = () => {
               <Input
                 isRequired
                 key="input-11"
-                name="secondSignaturePosition"
+                name="position2"
                 label={content.part3.inputLabel1}
                 labelPlacement="outside"
                 placeholder={content.part3.inputPholder1}
                 onChange={handleChange}
-                {...getValidationProps("secondSignaturePosition")}
+                {...getValidationProps("position2")}
               />
               <Input
                 isRequired
                 key="input-12"
-                name="secondSignatureName"
+                name="personnel2"
                 placeholder={content.part3.inputPholder2}
                 onChange={handleChange}
                 className="mt-6"
-                {...getValidationProps("secondSignatureName")}
+                {...getValidationProps("personnel2")}
               />
             </div>
             <p className="text-blue-500 font-bold mt-8 text-sm md:text-base lg:text-lg">
@@ -253,25 +315,25 @@ const Forms = () => {
                 className="numberOfUsers"
                 isRequired
                 key="input-13"
-                name="numberOfUsers"
+                name="userCount"
                 type="number"
                 inputMode="numeric"
                 label={content.part4.inputLabel1}
                 labelPlacement="outside"
-                placeholder="12"
+                placeholder={content.part4.inputPholder1}
                 onChange={handleChange}
-                {...getValidationProps("numberOfUsers")}
+                {...getValidationProps("userCount")}
               />
               <Select
                 isRequired
                 key="select-1"
-                name="additionalCompany"
+                name="hasAddDb"
                 labelPlacement="outside"
                 placeholder={content.part4.inputPholder2}
                 label={content.part4.inputLabel2}
                 className="max-w-none"
                 onChange={(e) => handleSelectChange(e.target.value)}
-                {...getValidationProps("additionalCompany")}
+                {...getValidationProps("hasAddDb")}
               >
                 <SelectItem className="text-green-500" key="Тийм">
                   {content.part4.yes}
@@ -284,7 +346,7 @@ const Forms = () => {
             <div className="mt-6">
               <Textarea
                 key="textarea-1"
-                name="additionalCompanyDescription"
+                name="addDbDesc"
                 labelPlacement="outside"
                 label={content.part5.textAreaLabel1}
                 placeholder="Enter your description"
@@ -292,24 +354,34 @@ const Forms = () => {
                 isDisabled={!isAdditionalCompanySelected}
                 onChange={handleChange}
                 className="max-w-none mb-3"
-                {...getValidationProps("additionalCompanyDescription")}
+                {...getValidationProps("addDbDesc")}
               />
               <Textarea
                 key="textarea-2"
-                name="systemInfoDescription"
+                name="note"
                 labelPlacement="outside"
                 label={content.part5.textAreaLabel2}
                 placeholder="Enter your description"
                 minRows="6"
                 onChange={handleChange}
                 className="max-w-none"
-                {...getValidationProps("systemInfoDescription")}
+                {...getValidationProps("note")}
               />
             </div>
             <div className="flex flex-row mt-6 justify-end items-end">
-              <Button className="bg-black text-white" onPress={handleSubmit}>
-                {content.part5.buttonText}
+              <Button className="bg-black text-white" type="submit">
+                {isLoading ? (
+                  <TailSpin
+                    height="20"
+                    width="20"
+                    color="#fff"
+                    ariaLabel="loading"
+                  />
+                ) : (
+                  content.part5.buttonText
+                )}
               </Button>
+              <ToastContainer />
             </div>
           </div>
         </form>

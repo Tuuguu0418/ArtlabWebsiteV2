@@ -12,6 +12,7 @@ import { CiBank } from "react-icons/ci";
 import FooterComponent from "@/components/FooterComponent";
 import { LanguageContext } from "@/context/LanguageContext";
 import { faqData } from "@/utils/faqPageLanguage";
+import { ToastContainer } from "react-toastify";
 
 const FrequentlyAQ = () => {
   const [feedbackForm, setFeedbackForm] = React.useState({
@@ -28,7 +29,7 @@ const FrequentlyAQ = () => {
     setFeedbackForm({ ...feedbackForm, [name]: value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const requiredFields = ["feedBack", "viewerName", "viewerPhone"];
 
@@ -43,6 +44,33 @@ const FrequentlyAQ = () => {
       setValidationErrors(newValidationErrors);
       alert("Та бүх хэсгийг бөглөнө үү");
       return;
+    }
+    try {
+      // Send the POST request
+      const response = await fetch(
+        "https://api.artlab.mn/inner/web/crm-request/contract",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(feedbackForm),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Амжилттай илгээлээ.", { position: "top-center" });
+      } else {
+        // Handle error response
+        toast.error(data.message, { position: "top-center" });
+      }
+    } catch (error) {
+      toast.error(`An error occurred: ${error.message}`, {
+        position: "top-center",
+      });
     }
 
     console.log(feedbackForm);
@@ -418,12 +446,15 @@ const FrequentlyAQ = () => {
                     className="border rounded-md px-4 py-2 w-full sm:w-1/2 placeholder-black font-medium"
                   />
                 </div>
-                <button
-                  type="submit"
-                  className="w-1/3 sm:w-auto rounded-md bg-sky-500 mt-2 sm:mt-0 px-0 sm:px-4 py-2 text-white"
-                >
-                  {content.contact.buttonText}
-                </button>
+                <div>
+                  <button
+                    type="submit"
+                    className="w-1/3 sm:w-auto rounded-md bg-sky-500 mt-2 sm:mt-0 px-0 sm:px-4 py-2 text-white"
+                  >
+                    {content.contact.buttonText}
+                  </button>
+                  <ToastContainer />
+                </div>
               </div>
             </form>
             <FooterComponent />

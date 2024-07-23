@@ -273,7 +273,7 @@ const Navigationbar = () => {
                     <DropdownTrigger>
                       <Button
                         variant="light"
-                        className={`text-xs 2xl:text-base font-semibold ${textColor}`}
+                        className={`text-xs 2xl:text-base font-semibold text-white`}
                       >
                         {language === "MN" ? "MN" : "EN"}
                         <IoIosArrowDown />

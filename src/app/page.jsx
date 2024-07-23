@@ -71,8 +71,6 @@ export default function Home() {
     }
   };
 
-  const notify = () => toast("Та 5000-аас бага тоо оруулна уу...");
-
   const calculateCost = () => {
     if (numUsers < 5000) {
       let cost = 0;
@@ -148,7 +146,7 @@ export default function Home() {
       setBreakdown([]);
       setShowTransition(false);
     } else {
-      alert("Та 5000-аас бага тоо оруулна уу");
+      toast.error("Та 5000-аас бага тоо оруулна уу");
       setTotalCost(0);
       setBreakdown([]);
       setShowTransition(false);
@@ -174,7 +172,7 @@ export default function Home() {
     setFeedbackForm({ ...feedbackForm, [name]: value });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const requiredFields = ["feedBack", "viewerName", "viewerPhone"];
 
@@ -191,6 +189,33 @@ export default function Home() {
       return;
     }
 
+    try {
+      // Send the POST request
+      const response = await fetch(
+        "https://api.artlab.mn/inner/web/crm-request/contract",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(feedbackForm),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success("Амжилттай илгээлээ.", { position: "top-center" });
+      } else {
+        // Handle error response
+        toast.error(data.message, { position: "top-center" });
+      }
+    } catch (error) {
+      toast.error(`An error occurred: ${error.message}`, {
+        position: "top-center",
+      });
+    }
     console.log(feedbackForm);
   };
 
@@ -450,9 +475,9 @@ export default function Home() {
             <p className="w-4/5 text-xs 2xl:text-base my-6 mx-auto">
               {content.why.mainText}
             </p>
-            <button className="bg-sky-500 border rounded-lg px-12 py-2 text-white text-sm 2xl:text-lg">
+            {/* <button className="bg-sky-500 border rounded-lg px-12 py-2 text-white text-sm 2xl:text-lg">
               {content.why.buttonText}
-            </button>
+            </button> */}
           </div>
           <div className="bg-[url('/img/backgrounds/World_blue_dots.svg.png')] bg-cover sm:bg-contain bg-center bg-no-repeat h-full sm:h-[26rem] w-full sm:w-3/4 sm:m-auto">
             <div className="flex flex-col sm:flex-row gap-10 sm:gap-5 items-center sm:items-stretch text-center text-xs 2xl:text-base pt-20">
@@ -610,12 +635,15 @@ export default function Home() {
                   className="border border-white/50 rounded-md bg-black bg-opacity-0 px-4 py-2 sm:w-1/2"
                 />
               </div>
-              <button
-                type="submit"
-                className="w-1/3 sm:w-auto rounded-md bg-sky-500 px-4 py-2 mt-5 sm:mt-0 mx-auto sm:mx-0"
-              >
-                {content.contact.buttonText}
-              </button>
+              <div>
+                <button
+                  type="submit"
+                  className="w-1/3 sm:w-auto rounded-md bg-sky-500 px-4 py-2 mt-5 sm:mt-0 mx-auto sm:mx-0"
+                >
+                  {content.contact.buttonText}
+                </button>
+                <ToastContainer />
+              </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-0 text-center sm:text-left">
               <div className="flex flex-col space-y-2 mt-8">

@@ -36,6 +36,7 @@ export const formDataLanguage = [
         part4: {
           title: "Гэрээний мэдээлэл",
           inputLabel1: "Авах хэрэглэгчийн тоо",
+          inputPholder1: "Хэрэглэгчийн тоо",
           inputLabel2: "Нэмэлт бааз/компани авах эсэх",
           inputPholder2: "Сонгох",
           yes: "Тийм",
@@ -83,6 +84,7 @@ export const formDataLanguage = [
         part4: {
           title: "Contract information",
           inputLabel1: "Number of users to get",
+          inputPholder1: "Number of users",
           inputLabel2: "Whether to get additional bases/companies",
           inputPholder2: "Choose",
           yes: "Yes",
