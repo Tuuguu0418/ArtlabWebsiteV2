@@ -21,7 +21,7 @@ export const data = [
           title1: "Бид",
           title2: "ний тухай",
           text: "Бид 2015 оноос өнөөдрийг хүртэл санхүүгийн салбарт тогтвортой үйл ажиллагаа явуулж байгаа ба монголдоо анхны Үүлэн технологи дээр суурилсан байгууллагын цогц системийн хөгжүүлэн одоог хүртэл амжилттай явж байна. Дэлхийн өнцөг булан бүрээс нийт 400 гаруй байгууллага, 4500 орчим хэрэглэгч системд идэвхтэй хандаж байна.",
-          introOneTitle: "Хамтрагч харилцагч байгууллагууд",
+          introOneTitle: "Манай байгууллагын хамт олон",
           introOneText:
             "Бид одоогоор бизнесийн * салбар чиглэлийн 400 гаруй байгууллагуудтай хамтран ажиллаж байна.",
           title3: "Сүпер баатрууд",
@@ -64,7 +64,7 @@ export const data = [
         },
         contact: {
           textareaText: "Таны хүсэлт",
-          inputText1: "Таны нэр",
+          inputText1: "Таны имэйл",
           inputText2: "Утасны дугаар",
           buttonText: "Хүсэлт илгээх",
           subText1: "Үндсэн лавлах:",
@@ -91,7 +91,7 @@ export const data = [
           title: "About ",
           title1: "us",
           text: "We have been operating steadily in the financial sector since 2015 and have been successfully developing the first cloud-based organization system in Mongolia. More than 400 organizations and about 4500 users from all over the world are actively accessing the system.",
-          introOneTitle: "Partner organizations",
+          introOneTitle: "Colleagues of our company",
           introOneText:
             "We are currently working with more than *400 organizations in the business sector.",
           title3: "Super Heroes",
@@ -134,7 +134,7 @@ export const data = [
         },
         contact: {
           textareaText: "Your request",
-          inputText1: "Your name",
+          inputText1: "Your email",
           inputText2: "Phone number",
           buttonText: "Send request",
           subText1: "Main directory:",

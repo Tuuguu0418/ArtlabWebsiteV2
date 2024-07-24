@@ -14,9 +14,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./Home.module.css";
 import ProductComponent from "@/components/productComponent";
-import WorkersComponent from "@/components/workersComponent";
+import CompaniesComponent from "@/components/companiesComponent";
 import { LanguageContext } from "@/context/LanguageContext";
 import { data } from "@/utils/mainpagelanguage";
+import { TailSpin } from "react-loader-spinner";
 
 export default function Home() {
   // Showcase text animation
@@ -159,22 +160,49 @@ export default function Home() {
 
   // Footer хэсэг
   const [feedbackForm, setFeedbackForm] = React.useState({
-    feedBack: "",
-    viewerName: "",
-    viewerPhone: "",
+    phone: "",
+    email: "",
+    description: "",
   });
 
   const [validationErrors, setValidationErrors] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "viewerPhone" && value < 0) return;
     setFeedbackForm({ ...feedbackForm, [name]: value });
+    if (name === "email") {
+      setValidationErrors((prev) => ({
+        ...prev,
+        email: !validateEmail(value),
+      }));
+    } else {
+      if (value) {
+        setValidationErrors((prev) => ({ ...prev, [name]: !value }));
+      }
+    }
+    if (name === "phone") {
+      setValidationErrors((prev) => ({
+        ...prev,
+        [name]: !validatePhone(value),
+      }));
+    }
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validatePhone = (number) => {
+    const phone = number.toString();
+    if (phone.length < 8) return false;
+    else return true;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const requiredFields = ["feedBack", "viewerName", "viewerPhone"];
+    const requiredFields = ["description", "email", "phone"];
 
     const newValidationErrors = {};
     requiredFields.forEach((field) => {
@@ -183,16 +211,21 @@ export default function Home() {
       }
     });
 
+    if (feedbackForm.phone.toString().length < 8) {
+      newValidationErrors.phone = true;
+    }
+
     if (Object.keys(newValidationErrors).length > 0) {
       setValidationErrors(newValidationErrors);
-      alert("Та бүх хэсгийг бөглөнө үү");
+      toast.error("Та бүх хэсгийг зөв бөглөнө үү", { position: "top-center" });
       return;
     }
 
+    setIsLoading(true);
     try {
       // Send the POST request
       const response = await fetch(
-        "https://api.artlab.mn/inner/web/crm-request/contract",
+        "https://api.artlab.mn/inner/web/crm-request/contact",
         {
           method: "POST",
           headers: {
@@ -207,6 +240,12 @@ export default function Home() {
 
       if (response.ok) {
         toast.success("Амжилттай илгээлээ.", { position: "top-center" });
+        setFeedbackForm({
+          phone: "",
+          email: "",
+          description: "",
+        });
+        document.getElementById("feedbackForm").reset();
       } else {
         // Handle error response
         toast.error(data.message, { position: "top-center" });
@@ -215,6 +254,8 @@ export default function Home() {
       toast.error(`An error occurred: ${error.message}`, {
         position: "top-center",
       });
+    } finally {
+      setIsLoading(false);
     }
     console.log(feedbackForm);
   };
@@ -305,6 +346,15 @@ export default function Home() {
                 <h3 className="font-semibold text-base 2xl:text-xl">
                   {content.aboutUs.introOneTitle}
                 </h3>
+                <div className="relative h-3/4 w-full my-3">
+                  <Image
+                    src="/img/others/artlab4.png"
+                    alt="Colleagues"
+                    fill
+                    objectFit="cover"
+                    className="rounded-2xl"
+                  />
+                </div>
                 <p className="text-[10px] 2xl:text-sm">
                   {content.aboutUs.introOneText}
                 </p>
@@ -334,7 +384,7 @@ export default function Home() {
             <h2 className="text-2xl 2xl:text-4xl text-center font-semibold mb-0 sm:mb-10">
               {content.aboutUs.title3}
             </h2>
-            <WorkersComponent />
+            <CompaniesComponent />
           </div>
         </div>
       </section>
@@ -603,12 +653,13 @@ export default function Home() {
       <section id="contact" data-textcolor="text-white">
         <div className="bg-[url('/img/backgrounds/footer_bg.png')] bg-cover bg-center bg-no-repeat w-full pb-20 pt-32 xl:pt-52">
           <form
+            id="feedbackForm"
             className="w-11/12 sm:w-4/5 xl:w-2/3 text-xs 2xl:text-base text-white bg-black/60 backdrop-blur bg-opacity-75 border border-white/50 rounded-xl mx-auto py-5 px-7"
             onSubmit={handleSubmit}
           >
             <textarea
               key="textarea-1"
-              name="feedBack"
+              name="description"
               rows="6"
               placeholder={content.contact.textareaText}
               onChange={handleChange}
@@ -618,8 +669,8 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row sm:w-2/3 gap-5 sm:gap-0 sm:space-x-4">
                 <input
                   key="input-1"
-                  name="viewerName"
-                  type="text"
+                  name="email"
+                  type="email"
                   placeholder={content.contact.inputText1}
                   required
                   onChange={handleChange}
@@ -627,7 +678,7 @@ export default function Home() {
                 />
                 <input
                   key="input-2"
-                  name="viewerPhone"
+                  name="phone"
                   type="number"
                   placeholder={content.contact.inputText2}
                   required
@@ -640,7 +691,16 @@ export default function Home() {
                   type="submit"
                   className="w-1/3 sm:w-auto rounded-md bg-sky-500 px-4 py-2 mt-5 sm:mt-0 mx-auto sm:mx-0"
                 >
-                  {content.contact.buttonText}
+                  {isLoading ? (
+                    <TailSpin
+                      height="20"
+                      width="20"
+                      color="#fff"
+                      ariaLabel="loading"
+                    />
+                  ) : (
+                    content.contact.buttonText
+                  )}
                 </button>
                 <ToastContainer />
               </div>

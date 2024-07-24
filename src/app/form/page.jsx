@@ -120,12 +120,11 @@ const Forms = () => {
     try {
       // Send the POST request
       const response = await fetch(
-        "https://api.artlab.mn/inner/web/crm-request/contract",
+        "https://api.artlab.mn/inner/web/crm-request/contract-form",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Accept: "application/json",
           },
           body: JSON.stringify(formData),
         }
@@ -135,6 +134,23 @@ const Forms = () => {
 
       if (response.ok) {
         toast.success("Амжилттай илгээлээ.", { position: "top-center" });
+        setFormData({
+          companyName: "",
+          companyNameEn: "",
+          companyRegNum: "",
+          phone1: "",
+          phone2: "",
+          email: "",
+          address: "",
+          position1: "",
+          personnel1: "",
+          position2: "",
+          personnel2: "",
+          userCount: "",
+          hasAddDb: "",
+          addDbDesc: "",
+          note: "",
+        });
         document.getElementById("formData").reset();
       } else {
         // Handle error response
@@ -150,6 +166,7 @@ const Forms = () => {
       setIsLoading(false);
     }
     console.log(formData);
+    // document.getElementById("formData").reset();
   };
 
   const getValidationProps = (field) => {
@@ -214,7 +231,6 @@ const Forms = () => {
                 onChange={handleChange}
               />
               <Input
-                isRequired
                 key="input-5"
                 name="phone1"
                 type="number"

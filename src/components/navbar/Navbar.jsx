@@ -104,7 +104,7 @@ const Navigationbar = () => {
     return () => {
       window.removeEventListener("popstate", handlePopState);
     };
-  }, [pathname, previousUrl]);
+  }, [pathname, previousUrl, router]);
 
   const links1 = [
     {

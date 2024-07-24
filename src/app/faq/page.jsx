@@ -12,26 +12,55 @@ import { CiBank } from "react-icons/ci";
 import FooterComponent from "@/components/FooterComponent";
 import { LanguageContext } from "@/context/LanguageContext";
 import { faqData } from "@/utils/faqPageLanguage";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { TailSpin } from "react-loader-spinner";
 
 const FrequentlyAQ = () => {
   const [feedbackForm, setFeedbackForm] = React.useState({
-    feedBack: "",
-    viewerName: "",
-    viewerPhone: "",
+    phone: "",
+    email: "",
+    description: "",
   });
 
   const [validationErrors, setValidationErrors] = React.useState({});
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "viewerPhone" && value < 0) return;
     setFeedbackForm({ ...feedbackForm, [name]: value });
+    if (name === "email") {
+      setValidationErrors((prev) => ({
+        ...prev,
+        email: !validateEmail(value),
+      }));
+    } else {
+      if (value) {
+        setValidationErrors((prev) => ({ ...prev, [name]: !value }));
+      }
+    }
+    if (name === "phone") {
+      setValidationErrors((prev) => ({
+        ...prev,
+        [name]: !validatePhone(value),
+      }));
+    }
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validatePhone = (number) => {
+    const phone = number.toString();
+    if (phone.length < 8) return false;
+    else return true;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const requiredFields = ["feedBack", "viewerName", "viewerPhone"];
+    const requiredFields = ["description", "email", "phone"];
 
     const newValidationErrors = {};
     requiredFields.forEach((field) => {
@@ -40,15 +69,21 @@ const FrequentlyAQ = () => {
       }
     });
 
+    if (feedbackForm.phone.toString().length < 8) {
+      newValidationErrors.phone = true;
+    }
+
     if (Object.keys(newValidationErrors).length > 0) {
       setValidationErrors(newValidationErrors);
-      alert("Та бүх хэсгийг бөглөнө үү");
+      toast.error("Та бүх хэсгийг зөв бөглөнө үү", { position: "top-center" });
       return;
     }
+
+    setIsLoading(true);
     try {
       // Send the POST request
       const response = await fetch(
-        "https://api.artlab.mn/inner/web/crm-request/contract",
+        "https://api.artlab.mn/inner/web/crm-request/contact",
         {
           method: "POST",
           headers: {
@@ -63,6 +98,12 @@ const FrequentlyAQ = () => {
 
       if (response.ok) {
         toast.success("Амжилттай илгээлээ.", { position: "top-center" });
+        setFeedbackForm({
+          phone: "",
+          email: "",
+          description: "",
+        });
+        document.getElementById("feedbackForm").reset();
       } else {
         // Handle error response
         toast.error(data.message, { position: "top-center" });
@@ -71,6 +112,8 @@ const FrequentlyAQ = () => {
       toast.error(`An error occurred: ${error.message}`, {
         position: "top-center",
       });
+    } finally {
+      setIsLoading(false);
     }
 
     console.log(feedbackForm);
@@ -411,6 +454,7 @@ const FrequentlyAQ = () => {
               </Accordion>
             </div>
             <form
+              id="feedbackForm"
               className="w-[95%] sm:w-10/12 xl:w-3/5 mt-6 mb-10 sm:mb-14 rounded-lg shadow-md p-4 text-xs 2xl:text-base"
               onSubmit={handleSubmit}
             >
@@ -419,9 +463,10 @@ const FrequentlyAQ = () => {
               </h3>
               <textarea
                 key="textarea-1"
-                name="feedBack"
+                name="description"
                 rows="4"
                 placeholder={content.contact.textareaText}
+                required
                 onChange={handleChange}
                 className="w-full mb-1 sm:mb-5 border rounded-xl p-4 placeholder-black font-medium"
               ></textarea>
@@ -429,8 +474,8 @@ const FrequentlyAQ = () => {
                 <div className="flex flex-col sm:flex-row w-2/3 gap-2 sm:gap-4">
                   <input
                     key="input-1"
-                    name="viewerName"
-                    type="text"
+                    name="email"
+                    type="email"
                     placeholder={content.contact.inputText1}
                     required
                     onChange={handleChange}
@@ -438,7 +483,7 @@ const FrequentlyAQ = () => {
                   />
                   <input
                     key="input-2"
-                    name="viewerPhone"
+                    name="phone"
                     type="number"
                     placeholder={content.contact.inputText2}
                     required
@@ -451,7 +496,16 @@ const FrequentlyAQ = () => {
                     type="submit"
                     className="w-1/3 sm:w-auto rounded-md bg-sky-500 mt-2 sm:mt-0 px-0 sm:px-4 py-2 text-white"
                   >
-                    {content.contact.buttonText}
+                    {isLoading ? (
+                      <TailSpin
+                        height="20"
+                        width="20"
+                        color="#fff"
+                        ariaLabel="loading"
+                      />
+                    ) : (
+                      content.contact.buttonText
+                    )}
                   </button>
                   <ToastContainer />
                 </div>

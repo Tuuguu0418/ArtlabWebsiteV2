@@ -20,7 +20,7 @@ export const faqData = [
         contact: {
           title: "Тусламжын хүсэлт",
           textareaText: "Таны хүсэлт",
-          inputText1: "Таны нэр",
+          inputText1: "Таны имэйл",
           inputText2: "Утасны дугаар",
           buttonText: "Хүсэлт илгээх",
         },
@@ -43,7 +43,7 @@ export const faqData = [
         contact: {
           title: "Request for help",
           textareaText: "Your request",
-          inputText1: "Your name",
+          inputText1: "Your email",
           inputText2: "Phone number",
           buttonText: "Send request",
         },
