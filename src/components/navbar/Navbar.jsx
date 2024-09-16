@@ -30,7 +30,12 @@ const Navigationbar = () => {
   const [textColor, setTextColor] = React.useState("text-white");
 
   const updateTextColor = (path) => {
-    if (path === "/service" || path === "/form") {
+    if (
+      path === "/service" ||
+      path === "/form" ||
+      path === "/news" ||
+      path.startsWith("/test/")
+    ) {
       setTextColor("text-black");
     } else {
       setTextColor("text-white");
@@ -60,7 +65,11 @@ const Navigationbar = () => {
       });
     };
 
-    if (pathname !== "/service" && pathname !== "/form") {
+    if (
+      pathname !== "/service" &&
+      pathname !== "/form" &&
+      pathname !== "/news"
+    ) {
       window.addEventListener("scroll", handleScroll);
       return () => {
         window.removeEventListener("scroll", handleScroll);
@@ -106,24 +115,36 @@ const Navigationbar = () => {
     };
   }, [pathname, previousUrl, router]);
 
+  const isAdminRoute = pathname.startsWith("/admin");
+
   const links1 = [
     {
       id: "1",
-      link: language === "MN" ? "Бүтээгдэхүүн" : "Product",
-      href: "/#product",
+      link: language === "MN" ? "Яагаад" : "Why",
+      href: "/#why",
     },
     {
       id: "2",
-      link: language === "MN" ? "Бидний тухай" : "About us",
-      href: "/#about",
+      link: language === "MN" ? "Хэрэглээ" : "Usage",
+      href: "/#usage",
     },
     {
       id: "3",
+      link: language === "MN" ? "Шийдлүүд" : "Solutions",
+      href: "/#solutions",
+    },
+    {
+      id: "4",
       link: language === "MN" ? "Үнэ" : "Price",
       href: "/#price",
     },
     {
-      id: "4",
+      id: "5",
+      link: language === "MN" ? "Хамтрах" : "Collaborate",
+      href: "/#partner",
+    },
+    {
+      id: "6",
       link: language === "MN" ? "Холбогдох" : "Contact",
       href: "/#contact",
     },
@@ -143,9 +164,9 @@ const Navigationbar = () => {
   ];
 
   return (
-    <NextUIProvider>
+    <NextUIProvider className={`${isAdminRoute ? "hidden" : ""}`}>
       <nav
-        className={`w-full backdrop-blur-lg ${textColor} fixed z-10 text-xs 2xl:text-base font-semibold p-5 transition-colors duration-200`}
+        className={`w-full backdrop-blur-lg ${textColor} fixed z-10 text-xs 2xl:text-base font-medium py-1 px-5 transition-colors duration-200`}
       >
         <div className="flex flex-row w-full xl:w-4/5 xl:mx-auto justify-between">
           <div className="flex space-x-8">
@@ -155,9 +176,10 @@ const Navigationbar = () => {
                 alt="artlab logo"
                 height={50}
                 width={100}
+                style={{ width: "auto" }}
               />
             </a>
-            <ul className="hidden xl:flex items-center space-x-8">
+            <ul className="hidden xl:flex items-center space-x-8 list-none">
               {links1.map(({ id, link, href }) => (
                 <li key={id}>
                   <a
@@ -174,7 +196,7 @@ const Navigationbar = () => {
             </ul>
           </div>
           <div className="flex items-center">
-            <ul className="hidden lg:flex space-x-8 items-center">
+            <ul className="hidden lg:flex space-x-8 items-center list-none">
               <li>
                 <Link href="/faq">
                   <CiCircleQuestion size={20} />
@@ -233,7 +255,7 @@ const Navigationbar = () => {
                 <a
                   href="https://artlab.mn/"
                   target="_blank"
-                  className="bg-sky-500 rounded-lg px-4 py-3"
+                  className="bg-sky-500 text-white rounded-lg px-4 py-3"
                 >
                   {language === "MN" ? "Нэвтрэх" : "Login"}
                 </a>
@@ -251,7 +273,7 @@ const Navigationbar = () => {
             </div>
 
             {nav && (
-              <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-black backdrop-blur-2xl text-white">
+              <ul className="flex flex-col justify-center items-center absolute top-0 left-0 w-full h-screen bg-black backdrop-blur-2xl text-white list-none">
                 {links1.map(({ id, link, href }) => (
                   <li
                     key={id}
@@ -262,6 +284,7 @@ const Navigationbar = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         handleNavigation(href);
+                        setNav(!nav);
                       }}
                     >
                       {link}
@@ -303,12 +326,26 @@ const Navigationbar = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         handleNavigation(href);
+                        setNav(!nav);
                       }}
                     >
                       {link}
                     </a>
                   </li>
                 ))}
+                <li className="px-4 cursor-pointer capitalize py-4 text-sm font-medium">
+                  <a
+                    href="https://artlab.mn/"
+                    className="py-3"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavigation("https://artlab.mn/");
+                      setNav(!nav);
+                    }}
+                  >
+                    {language === "MN" ? "Нэвтрэх" : "Login"}
+                  </a>
+                </li>
               </ul>
             )}
           </div>

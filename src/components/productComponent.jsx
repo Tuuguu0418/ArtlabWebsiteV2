@@ -97,17 +97,14 @@ const ProductComponent = () => {
                 style={{ objectFit: "cover" }}
                 className="border border-white rounded-3xl"
               />
-              <div className="absolute bottom-2 left-2 bg-white text-black p-3 rounded-3xl text-left w-[90%]">
-                <h3 className="text-xs 2xl:text-base font-semibold">
-                  {slide.title}
-                </h3>
-                <div className="flex flex-row">
-                  <button className="rounded-xl bg-sky-500 text-white text-sm 2xl:text-xl p-3 my-auto">
+              <div className="absolute bottom-2 left-2 bg-white text-black p-2 rounded-3xl text-left w-[90%]">
+                <div className="flex items-center gap-2">
+                  <button className="rounded-md bg-sky-500 text-white text-sm 2xl:text-xl p-1 my-auto">
                     <BsArrowUpRight />
                   </button>
-                  <p className="mt-2 ml-2 text-[10px] 2xl:text-sm">
-                    {slide.desc}
-                  </p>
+                  <h3 className="text-xs 2xl:text-base font-semibold">
+                    {slide.title}
+                  </h3>
                 </div>
               </div>
             </div>

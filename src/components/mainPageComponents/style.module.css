@@ -1,36 +1,3 @@
-.textGradient {
-  background: -webkit-linear-gradient(left, #0090ff, #ffffff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-@keyframes textIn {
-  0% {
-    transform: translateY(100%);
-  }
-  100% {
-    transform: translateY(0%);
-  }
-}
-
-@keyframes textOut {
-  0% {
-    transform: translateY(0%);
-  }
-  100% {
-    transform: translateY(-100%);
-  }
-}
-
-.text_in {
-  display: block;
-  animation: textIn 0.5s ease;
-}
-
-.text_out {
-  animation: textOut 0.5s ease;
-}
-
 /* Glowing corner effect */
 
 .glowCard {
@@ -39,7 +6,7 @@
   height: 100%;
   background-color: rgba(45, 45, 45, 0.5);
   overflow: hidden;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
 }
 
 .glowCard::before {
@@ -65,5 +32,16 @@
   position: absolute;
   inset: 2px;
   background: rgba(45, 45, 45, 0.1);
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .glowCard {
+    position: static;
+    width: 80%;
+    height: 100%;
+    background-color: rgba(45, 45, 45, 0.5);
+    overflow: hidden;
+    border-radius: 0.75rem;
+  }
 }

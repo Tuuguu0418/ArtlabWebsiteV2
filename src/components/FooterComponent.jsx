@@ -8,8 +8,8 @@ import { FaEnvelope } from "react-icons/fa";
 
 const FooterComponent = () => {
   return (
-    <footer className="mb-5">
-      <div>
+    <footer className="py-3">
+      <div className="flex flex-col items-center">
         <Image
           src="/img/logo/artlabLogoBlack.png"
           alt="Artlab Logo Black"

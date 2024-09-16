@@ -10,8 +10,13 @@
   },
   "dependencies": {
     "@nextui-org/react": "^2.4.1",
+    "axios": "^1.7.4",
     "framer-motion": "^11.2.10",
+    "html-react-parser": "^5.1.15",
     "http-proxy-middleware": "^3.0.0",
+    "jodit-react": "^4.1.2",
+    "jose": "^5.7.0",
+    "js-cookie": "^3.0.5",
     "next": "^14.2.4",
     "next-cors": "^1.0.0",
     "react": "^18",
