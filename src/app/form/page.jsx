@@ -14,6 +14,7 @@ const Forms = () => {
     companyName: "",
     companyNameEn: "",
     companyRegNum: "",
+    activity: "",
     phone1: "",
     phone2: "",
     email: "",
@@ -23,7 +24,7 @@ const Forms = () => {
     position2: "",
     personnel2: "",
     userCount: "",
-    hasAddDb: "",
+    hasAddDb: undefined,
     addDbDesc: "",
     note: "",
   });
@@ -34,11 +35,9 @@ const Forms = () => {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleSelectChange = (value) => {
-    setIsAdditionalCompanySelected(value === "Тийм");
-    setFormData({ ...formData, hasAddDb: value });
-    if (value) {
-      setValidationErrors((prev) => ({ ...prev, hasAddDb: !value }));
-    }
+    const isAdditionalSelected = value === "Тийм";
+    setIsAdditionalCompanySelected(isAdditionalSelected);
+    setFormData({ ...formData, hasAddDb: isAdditionalSelected });
   };
 
   const handleChange = (e) => {
@@ -81,6 +80,7 @@ const Forms = () => {
       "companyName",
       "companyNameEn",
       "companyRegNum",
+      "phone1",
       "phone2",
       "email",
       "position1",
@@ -88,7 +88,6 @@ const Forms = () => {
       "position2",
       "personnel2",
       "userCount",
-      "hasAddDb",
     ];
 
     const newValidationErrors = {};
@@ -98,19 +97,21 @@ const Forms = () => {
       }
     });
 
+    if (formData.hasAddDb === undefined) {
+      newValidationErrors.hasAddDb = true;
+    }
+
+    if (formData.phone1.toString().length < 8) {
+      newValidationErrors.phone1 = true;
+    }
+
     if (formData.phone2.toString().length < 8) {
       newValidationErrors.phone2 = true;
     }
 
-    if (formData.phone1 !== "") {
-      if (formData.phone1.toString().length < 8) {
-        newValidationErrors.phone1 = true;
-      }
-    }
-
     if (Object.keys(newValidationErrors).length > 0) {
       setValidationErrors(newValidationErrors);
-      toast.warning("*-той хэсгүүдийг бүгдийг нь зөв бөглөнө үү", {
+      toast.warning("*-той болон улаан хэсгүүдийг бүгдийг нь зөв бөглөнө үү", {
         position: "top-center",
       });
       return;
@@ -132,12 +133,13 @@ const Forms = () => {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (data.success) {
         toast.success("Амжилттай илгээлээ.", { position: "top-center" });
         setFormData({
           companyName: "",
           companyNameEn: "",
           companyRegNum: "",
+          activity: "",
           phone1: "",
           phone2: "",
           email: "",
@@ -147,7 +149,7 @@ const Forms = () => {
           position2: "",
           personnel2: "",
           userCount: "",
-          hasAddDb: "",
+          hasAddDb: undefined,
           addDbDesc: "",
           note: "",
         });
@@ -162,11 +164,10 @@ const Forms = () => {
       toast.error(`An error occurred: ${error.message}`, {
         position: "top-center",
       });
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
-    console.log(formData);
-    // document.getElementById("formData").reset();
   };
 
   const getValidationProps = (field) => {
@@ -224,13 +225,14 @@ const Forms = () => {
               />
               <Input
                 key="input-4"
-                name="businessField"
+                name="activity"
                 label={content.part1.inputLabel4}
                 labelPlacement="outside"
                 placeholder={content.part1.inputPholder4}
                 onChange={handleChange}
               />
               <Input
+                isRequired
                 key="input-5"
                 name="phone1"
                 type="number"

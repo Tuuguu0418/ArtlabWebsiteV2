@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { decrypt } from "./lib/session";
 import { cookies } from "next/headers";
+import Cookies from "js-cookie";
 
 const protectedRoutes = ["/admin/panel"];
 const publicRoutes = [
@@ -17,20 +17,21 @@ const middleware = async (req) => {
   const isProtectedRoute = protectedRoutes.includes(path);
   const isPublicRoute = publicRoutes.includes(path);
 
-  const cookie = cookies().get("token")?.value;
+  const token = cookies().get("token")?.value;
 
   // const session = cookie ? await decrypt(cookie) : null;
   // console.log("Session: " + session);
 
   const userId = cookies().get("userId")?.value;
 
-  if (isProtectedRoute && !userId) {
+  if (isProtectedRoute && !userId && !token) {
     return NextResponse.redirect(new URL("/admin/login", req.nextUrl));
   }
 
   if (
     isProtectedRoute &&
     userId &&
+    token &&
     !req.nextUrl.pathname.startsWith("/admin/panel")
   ) {
     return NextResponse.redirect(new URL("/admin/panel", req.nextUrl));

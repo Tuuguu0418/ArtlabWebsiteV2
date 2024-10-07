@@ -3,16 +3,26 @@ import Image from "next/image";
 import * as React from "react";
 import Link from "next/link";
 import FooterComponent from "@/components/FooterComponent";
+import parse from "html-react-parser";
 
 const NewsPage = () => {
   const [arr, setArr] = React.useState([]);
   const [currentPage, setCurrentPage] = React.useState(1);
   const itemsPerPage = 5;
 
-  const response = async () => {
+  const doSearch = async () => {
     try {
-      const result = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      const query = new URLSearchParams({
+        type: "",
+        category: "",
+        active: "1",
+      }).toString();
+      const result = await fetch(`/api/getAllPosts?${query}`, {
         method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "js-response-modify": 1,
+        },
       });
 
       if (result) {
@@ -27,8 +37,9 @@ const NewsPage = () => {
 
   React.useEffect(() => {
     const seeData = async () => {
-      const data = await response();
-      setArr(data.splice(0, 50));
+      const data = await doSearch();
+      setArr(data.value);
+      // setArr(data.splice(0, 50));
     };
 
     seeData();
@@ -50,16 +61,16 @@ const NewsPage = () => {
           <div className="flex flex-col gap-4 mb-10">
             <Link
               href={`/test/${
-                currentFirstItem[0] ? currentFirstItem[0].id : "/news"
+                currentFirstItem[0] ? currentFirstItem[0].postId : "/news"
               }`}
               className="rounded-3xl shadow-md p-4"
             >
               <Image
                 src="/img/others/something.png"
                 alt="artlab com"
-                height={160}
-                width={600}
-                className="rounded-xl w-full h-64 mb-3"
+                height={1000}
+                width={1000}
+                className="rounded-xl w-full h-64 object-cover mb-3"
               />
               <h2 className="px-2 font-semibold text-sm">
                 {currentFirstItem[0] ? currentFirstItem[0].title : "Loading..."}
@@ -67,7 +78,7 @@ const NewsPage = () => {
             </Link>
             {currentItems.map((el, index) => (
               <Link
-                href={`/test/${el.id}`}
+                href={`/test/${el.postId}`}
                 key={index}
                 className="flex gap-4 rounded-3xl shadow-md p-4"
               >
@@ -76,13 +87,11 @@ const NewsPage = () => {
                   alt="artlab photo"
                   height={150}
                   width={150}
-                  className="rounded-xl h-36 w-36"
+                  className="rounded-xl h-36 w-36 object-cover"
                 />
                 <div className="flex flex-col gap-2 justify-center">
-                  <h3 className="text-sm font-semibold">
-                    Бид найзлах дуртай 👐 {el.title}
-                  </h3>
-                  <p>{el.body}</p>
+                  <h3 className="text-sm font-semibold">{el.title}</h3>
+                  <p>{el.category}</p>
                 </div>
               </Link>
             ))}
@@ -123,7 +132,7 @@ const NewsPage = () => {
                     onClick={() => paginate(i + 1)}
                     className={`px-4 py-2 mx-1 rounded-md ${
                       currentPage === i + 1
-                        ? "bg-red-500 text-white"
+                        ? "bg-sky-500 text-white"
                         : "bg-gray-200"
                     }`}
                   >

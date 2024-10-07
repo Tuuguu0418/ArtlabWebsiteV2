@@ -1,12 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useContext } from "react";
 import Cookies from "js-cookie";
 import ProductComponent from "@/components/productComponent";
 import AdminPanelProductDB from "@/components/adminPanelPages/NewsEdit/page";
-import AddNewNews from "@/components/adminPanelPages/AddNewNews/page";
+import SeeEditNewsShow from "@/components/adminPanelPages/SeeEditedNews/page";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import PostContext from "@/context/PostContext";
 
 import { HiOutlineHome } from "react-icons/hi2";
 import { PiMonitorLight } from "react-icons/pi";
@@ -15,8 +16,9 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { AiOutlineLink } from "react-icons/ai";
 
 const AdminPanel = () => {
+  const postContext = useContext(PostContext);
   const router = useRouter();
-  const [menu, SetMenu] = React.useState("Home");
+  const [menu, SetMenu] = React.useState("Post");
 
   const renderContent = () => {
     switch (menu) {
@@ -24,10 +26,10 @@ const AdminPanel = () => {
         return <div>Home component</div>;
       case "Product":
         return <ProductComponent />;
-      case "Company":
+      case "Post":
         return <AdminPanelProductDB />;
       case "Settings":
-        return <AddNewNews />;
+        return <SeeEditNewsShow />;
       default:
         return <div>Something...</div>;
     }
@@ -40,21 +42,21 @@ const AdminPanel = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-white text-black text-sm">
+    <div className="w-full h-screen bg-white text-white text-sm">
       <div className="flex h-full">
-        <aside className="w-48 border-r-1 h-full flex flex-col justify-between">
+        <aside className="w-48 bg-black border-r-1 h-full flex flex-col justify-between">
           <div>
             <Image
-              src="/img/logo/artlabLogoBlack2.png"
+              src="/img/logo/artlablogo2.png"
               alt="Artlab Logo"
               height={30}
               width={90}
               className="mx-4 my-8"
             />
-            <ul className="pl-2">
+            <ul className="px-2">
               <li
-                className={`flex items-center gap-3 p-2 hover:bg-slate-100 transition-all duration-200 ${
-                  menu === "Home" ? "text-black" : "text-slate-400"
+                className={`flex items-center gap-3 p-2 hover:bg-white/10 transition-all duration-200 ${
+                  menu === "Home" ? "text-sky-500" : "text-slate-400"
                 }`}
                 onClick={() => SetMenu("Home")}
               >
@@ -62,16 +64,16 @@ const AdminPanel = () => {
                 <button>Home</button>
               </li>
               <li
-                className={`flex items-center gap-3 p-2 hover:bg-slate-100 transition-all duration-200 ${
-                  menu === "Company" ? "text-black" : "text-slate-400"
+                className={`flex items-center gap-3 p-2 hover:bg-white/10 transition-all duration-200 ${
+                  menu === "Post" ? "text-sky-500" : "text-slate-400"
                 }`}
-                onClick={() => SetMenu("Company")}
+                onClick={() => SetMenu("Post")}
               >
                 <LuLayoutDashboard className="text-lg" />
                 <button>Post</button>
               </li>
-              <li
-                className={`flex flex-col p-2 text-slate-400 hover:bg-slate-100 transition-all duration-200 group`}
+              {/* <li
+                className={`flex flex-col p-2 text-slate-400 hover:bg-white/10 transition-all duration-200 group`}
               >
                 <div className="flex items-center gap-3">
                   <PiMonitorLight className="text-lg" />
@@ -79,8 +81,8 @@ const AdminPanel = () => {
                 </div>
                 <ul className="hidden group-hover:block p-2 duration-300">
                   <li
-                    className={`flex items-center gap-3 p-2 hover:bg-slate-200 ${
-                      menu === "Product" ? "text-black" : "text-slate-400"
+                    className={`flex items-center gap-3 p-2 hover:bg-white/15 ${
+                      menu === "Product" ? "text-sky-500" : "text-slate-400"
                     }`}
                     onClick={() => SetMenu("Product")}
                   >
@@ -88,8 +90,8 @@ const AdminPanel = () => {
                     <button>Product</button>
                   </li>
                   <li
-                    className={`flex items-center gap-3 p-2 hover:bg-slate-200 ${
-                      menu === "Companies" ? "text-black" : "text-slate-400"
+                    className={`flex items-center gap-3 p-2 hover:bg-white/15 ${
+                      menu === "Companies" ? "text-sky-500" : "text-slate-400"
                     }`}
                     onClick={() => SetMenu("Companies")}
                   >
@@ -99,22 +101,22 @@ const AdminPanel = () => {
                 </ul>
               </li>
               <li
-                className={`flex items-center gap-3 p-2 hover:bg-slate-100 transition-all duration-200 ${
-                  menu === "Settings" ? "text-black" : "text-slate-400"
+                className={`flex items-center gap-3 p-2 hover:bg-white/10 transition-all duration-200 ${
+                  menu === "Settings" ? "text-sky-500" : "text-slate-400"
                 }`}
                 onClick={() => SetMenu("Settings")}
               >
                 <IoSettingsOutline className="text-lg" />
                 <button>Settings</button>
-              </li>
+              </li> */}
             </ul>
           </div>
           <button onClick={logoutUser} className="flex gap-3 m-3">
             <HiOutlineHome className="text-lg" />
-            Logout
+            Log out
           </button>
         </aside>
-        <main className="w-full h-full overflow-y-scroll">
+        <main className="w-full h-full overflow-y-scroll text-black">
           {renderContent()}
         </main>
       </div>

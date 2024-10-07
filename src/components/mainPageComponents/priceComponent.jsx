@@ -113,7 +113,7 @@ const PriceComponent = () => {
     language === "MN" ? data[0].languages.mongolian : data[0].languages.english;
 
   return (
-    <div className="grid grid-cols sm:grid-cols-3 w-full max-w-sm sm:max-w-3xl 2xl:max-w-6xl text-xs 2xl:text-base">
+    <div className="grid grid-cols sm:grid-cols-3 w-full max-w-sm md:max-w-2xl lg:max-w-3xl 2xl:max-w-6xl text-xs 2xl:text-base">
       <div>
         <p className="text-end">{content.price.textPerUser}</p>
         <div className="order-last sm:order-first grid grid-cols-2 sm:flex sm:flex-col gap-x-2 sm:gap-0 px-1 sm:px-0">

@@ -15,16 +15,21 @@ const NewsShow = ({ params }) => {
       const fetchNews = async () => {
         try {
           const response = await fetch(
-            `https://api.artlab.mn/inner/web/webpost/${id}`,
+            `https://api.artlab.mn/inner/web/posts/${id}`,
             {
               method: "GET",
             }
           );
-          if (!response.ok) {
-            notFound(); // If the response is not OK, show a 404 page
-          }
+
           const data = await response.json();
-          setNewsItem(data.value);
+          if (!data.success || !response.ok) {
+            notFound(); // If the success is false, show a 404 page
+            return;
+          }
+
+          setNewsItem({
+            ...data.value,
+          });
         } catch (error) {
           console.log("There is a error: ", error);
         }
@@ -38,26 +43,32 @@ const NewsShow = ({ params }) => {
   return (
     <main className="bg-white text-black">
       <div className="w-full h-full flex pt-20 justify-center">
-        <div className="w-1/2 flex flex-col gap-8 rounded-xl shadow-md py-5 text-sm">
-          <div className="flex flex-col gap-4 items-center">
-            <h1 className="w-11/12 font-semibold text-base">
-              {newsItem.id}
-              {newsItem.title}
-            </h1>
+        <div className="w-4/5 flex flex-col text-sm">
+          <div className="flex flex-col gap-4 items-start">
             <Image
               src="/img/others/something.png"
               alt="something"
-              height={600}
-              width={600}
-              className="w-11/12 h-3/5 rounded-xl"
+              height={1000}
+              width={1000}
+              className="hidden w-full h-1/2 rounded-xl"
             />
-            <div className="w-11/12">
+            <p>Нүүр &#62; Мэдээ &#62; {newsItem.type}</p>
+            <h1 className="w-4/5 font-semibold text-2xl">{newsItem.title}</h1>
+            <div className="flex gap-3">
+              <Image
+                src="/img/others/something.png"
+                alt="something"
+                height={25}
+                width={25}
+                className="rounded-full"
+              />
+              <p>ArtLab</p>
+              <p>{newsItem.createdAt}</p>
+            </div>
+            <div className="px-5">
               {parse(newsItem.body)}
               <br />
             </div>
-          </div>
-          <div className="flex flex-col gap-4 items-center">
-            <h3 className="w-11/12 font-semibold text-base">Known unknown</h3>
           </div>
         </div>
       </div>

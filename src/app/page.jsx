@@ -12,11 +12,11 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { SlGraduation } from "react-icons/sl";
 
 import styles from "./Home.module.css";
-import WhosUsing from "@/components/mainPageComponents/whosUsingComponent";
 import SolutionsComponent from "@/components/mainPageComponents/solutionsComponent";
 import NewsComponent from "@/components/mainPageComponents/newsComponent";
 import PriceComponent from "@/components/mainPageComponents/priceComponent";
 import MainpageFooter from "@/components/mainPageComponents/mainpageFooterComponent";
+import WhosUsingTest from "@/components/mainPageComponents/textComponent";
 import { LanguageContext } from "@/context/LanguageContext";
 import { data } from "@/utils/mainpagelanguage";
 
@@ -67,8 +67,8 @@ export default function Home() {
           data-textcolor="text-white"
         >
           <div className="order-last sm:order-first flex flex-col p-5 sm:p-2 sm:justify-center sm:items-center">
-            <div className="2xl:w-[55%]">
-              <h2 className="text-3xl sm:text-4xl 2xl:text-5xl font-semibold mb-5">
+            <div className="2xl:w-[65%]">
+              <h2 className="text-3xl xl:text-4xl 2xl:text-5xl font-semibold mb-5">
                 {content.showcase.showcaseTitle1}
                 <br /> {content.showcase.showcaseTitle2}
                 <p
@@ -236,7 +236,7 @@ export default function Home() {
               <h2 className="w-fit bg-sky-500 rounded-2xl text-base px-5 py-1 mx-auto sm:mx-0">
                 {content.why.title2}
               </h2>
-              <WhosUsing />
+              <WhosUsingTest />
             </div>
           </div>
         </section>
@@ -420,7 +420,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            {/* <NewsComponent /> */}
+            <NewsComponent />
           </div>
         </section>
 

@@ -2,9 +2,10 @@ import React, { useState, useContext } from "react";
 import Image from "next/image";
 import { LanguageContext } from "@/context/LanguageContext";
 
-const WhosUsing = () => {
+const WhosUsingTest = () => {
   const { language } = useContext(LanguageContext);
-  const [isClicked, setIsClicked] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0); // Track the active clicked div
+
   const contents = [
     {
       title:
@@ -66,74 +67,29 @@ const WhosUsing = () => {
     <div className="w-full flex flex-col sm:flex-row gap-2 sm:gap-0 justify-between">
       <div
         className={`${
-          isClicked ? "h-60 sm:w-3/5" : "h-10 sm:w-[6%]"
-        } sm:h-80 2xl:h-96 bg-[url('/img/whosUsing/uildwerlel.png')] bg-cover bg-center bg-no-repeat flex flex-col justify-end rounded-xl p-4 duration-300`}
+          activeIndex === 0 ? "h-60 sm:w-3/5" : "h-10 sm:w-[6%]"
+        } sm:h-80 2xl:h-96 bg-[url('/img/whosUsing/uildwerlel.png')] bg-cover bg-center bg-no-repeat flex flex-col justify-end rounded-xl p-4 duration-300 cursor-pointer`}
+        onClick={() => setActiveIndex(0)} // Set activeIndex to 0 when this div is clicked
       >
-        <div className={`${isClicked ? "block" : "hidden"} ml-3 duration-500`}>
+        <div className={`${activeIndex === 0 ? "block" : "hidden"} ml-3`}>
           <h3 className="text-3xl font-semibold mb-2">
             {language === "MN" ? "Үйлдвэрлэл" : "Production"}
           </h3>
-          <div className="hidden gap-3">
-            <Image
-              src="/img/companies/ubcab.png"
-              alt="test photo"
-              height={25}
-              width={25}
-              style={{ width: "auto" }}
-              className="rounded-full"
-            />
-            <Image
-              src="/img/companies/ubcab.png"
-              alt="test photo"
-              height={25}
-              width={25}
-              style={{ width: "auto" }}
-              className="rounded-full"
-            />
-            <Image
-              src="/img/companies/ubcab.png"
-              alt="test photo"
-              height={25}
-              width={25}
-              style={{ width: "auto" }}
-              className="rounded-full"
-            />
-          </div>
         </div>
       </div>
       {contents.map((el, index) => (
         <div
           key={index}
-          className={`group hover:h-60 sm:hover:h-80 2xl:hover:h-96 sm:hover:w-3/5 w-full sm:w-[6%] h-10 sm:h-80 2xl:h-96 bg-cover bg-center bg-no-repeat flex flex-col justify-end rounded-xl p-4 duration-300`}
+          className={`${
+            activeIndex === index + 1 ? "h-60 sm:w-3/5" : "h-10 sm:w-[6%]"
+          } sm:h-80 2xl:h-96 bg-cover bg-center bg-no-repeat flex flex-col justify-end rounded-xl p-4 duration-300 cursor-pointer`}
           style={{ backgroundImage: `url(${el.imgPath})` }}
-          onMouseEnter={() => setIsClicked(false)}
-          onMouseLeave={() => setIsClicked(true)}
+          onClick={() => setActiveIndex(index + 1)} // Set the activeIndex to clicked div
         >
-          <div className="hidden group-hover:block ml-3 duration-300">
+          <div
+            className={`${activeIndex === index + 1 ? "block" : "hidden"} ml-3`}
+          >
             <h3 className="text-3xl font-semibold mb-2">{el.title}</h3>
-            <div className="hidden gap-3">
-              <Image
-                src={`${el.company1}`}
-                alt="test photo"
-                height={25}
-                width={25}
-                className="rounded-full"
-              />
-              <Image
-                src={`${el.company2}`}
-                alt="test photo"
-                height={25}
-                width={25}
-                className="rounded-full"
-              />
-              <Image
-                src={`${el.company3}`}
-                alt="test photo"
-                height={25}
-                width={25}
-                className="rounded-full"
-              />
-            </div>
           </div>
         </div>
       ))}
@@ -141,4 +97,4 @@ const WhosUsing = () => {
   );
 };
 
-export default WhosUsing;
+export default WhosUsingTest;

@@ -34,6 +34,7 @@ const Navigationbar = () => {
       path === "/service" ||
       path === "/form" ||
       path === "/news" ||
+      path.startsWith("/invoice") ||
       path.startsWith("/test/")
     ) {
       setTextColor("text-black");
@@ -166,7 +167,7 @@ const Navigationbar = () => {
   return (
     <NextUIProvider className={`${isAdminRoute ? "hidden" : ""}`}>
       <nav
-        className={`w-full backdrop-blur-lg ${textColor} fixed z-10 text-xs 2xl:text-base font-medium py-1 px-5 transition-colors duration-200`}
+        className={`w-full backdrop-blur-lg ${textColor} fixed z-30 text-xs 2xl:text-base font-medium py-1 px-5 transition-colors duration-200`}
       >
         <div className="flex flex-row w-full xl:w-4/5 xl:mx-auto justify-between">
           <div className="flex space-x-8">
